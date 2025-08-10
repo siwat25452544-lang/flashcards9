@@ -25,8 +25,10 @@
     .grid{display:grid;gap:14px} .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
     .select,input[type=text]{padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:#fff;font-size:15px}
     .slider{width:240px}
+
     .ds{border:1px solid var(--border);border-radius:999px;padding:8px 12px;background:#fff;cursor:pointer}
     .ds.on{background:#111827;color:#fff;border-color:#111827}
+
     /* Flashcard */
     .flash-wrap{display:flex;flex-direction:column;align-items:center}
     .flash-card{width:min(900px,92vw);aspect-ratio:16/10;border-radius:26px;box-shadow:var(--shadow);border:1px solid var(--border);
@@ -37,6 +39,17 @@
     .flash-count{position:absolute;top:14px;right:14px;background:#111;color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700}
     .flash-controls{display:flex;justify-content:center;gap:10px;margin-top:12px}
     .flash-controls .btn{min-width:120px}
+
+    /* Match */
+    .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .match-col{padding:12px;border-radius:14px;background:#f8fafc;border:1px solid var(--border);min-height:120px}
+    .match-item{padding:12px;border-radius:12px;background:#fff;border:1px solid var(--border);cursor:pointer;text-align:center;font-weight:700}
+    .match-item.sel{outline:3px solid #2563eb}
+    .match-item.done{opacity:.45;pointer-events:none}
+
+    /* Listen */
+    .listen-opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    .listen-btn{padding:14px;border:1px solid var(--border);border-radius:12px;background:#fff;text-align:center;font-weight:700;cursor:pointer}
   </style>
 </head>
 <body>
@@ -110,8 +123,6 @@
 <script>
 const KEY_DATASETS="en_trainer_datasets_v1", KEY_ACTIVE="en_trainer_active_v1", KEY_VOICE="en_trainer_voice_v1";
 const qs=(s)=>document.querySelector(s), view=qs('#view');
-const toast=(t)=>{ console.log('[toast]',t); };
-
 const store={
   get datasets(){ try{return JSON.parse(localStorage.getItem(KEY_DATASETS)||"[]")}catch{return[]} },
   set datasets(v){ localStorage.setItem(KEY_DATASETS, JSON.stringify(v)); },
@@ -123,8 +134,8 @@ const store={
 
 // Seed words
 const BUILTIN=[
-  {id:1,w:"happy",th:"มีความสุข",s:["I am happy today.","I feel happy when I read."],cat:"adjective"},
-  {id:2,w:"borrow",th:"ยืม",s:["Can I borrow your pen?","Please borrow a book."],cat:"verb"}
+  {id:1,w:"hello",th:"สวัสดี",s:["Hello! How are you?","We say hello to friends."],cat:"daily"},
+  {id:2,w:"water",th:"น้ำ",s:["Please drink water.","Water is clear."],cat:"daily"}
 ];
 
 let datasets = store.datasets;
@@ -169,33 +180,29 @@ function parseCSV(text){
     const sRaw=get(idx.s);
     const cat=get(idx.cat);
     const sArr = sRaw ? sRaw.split('|').map(x=>x.trim()).filter(Boolean) : [];
-    out.push({ id:startId+i, w, th, s: sArr.length? sArr : (sRaw||''), cat });
+    out.push({ id:startId+i, w, th, s: sArr.length? sArr : (sRaw? [sRaw] : []), cat });
   }
   return out;
 }
 
-/* ===== Import from URL (robust) ===== */
-async function importFromURL(url){
-  try{
-    const res = await fetch(url, {cache:'no-store'});
-    if(!res.ok) throw new Error('http_'+res.status);
-    const text = await res.text();
-    console.log('[CSV first line]', (text.split(/\r?\n/)[0]||'').slice(0,200));
-    const words = parseCSV(text).map(x=> ({...x, s: Array.isArray(x.s)? x.s : (x.s? [x.s] : [])}));
-    if(!words.length) throw new Error('empty');
-    const dsId="csv_"+Date.now(); const name=url.split('/').pop().split('?')[0];
-    datasets = store.datasets; datasets.push({id:dsId, name, words}); store.datasets=datasets; store.active=dsId; state.active=dsId;
-    renderDatasets(); renderAll(true); alert('นำเข้าจาก URL สำเร็จ');
-  }catch(err){
-    console.error('Import URL failed:', err);
-    let msg='ไฟล์หรือหัวคอลัมน์ไม่ถูกต้อง';
-    if(String(err).includes('bad_header')) msg='หัวคอลัมน์ควรมีอย่างน้อย w และ th (รองรับ word/thai/sentences/category ด้วย)';
-    if(String(err).includes('http_')) msg='โหลดไฟล์ไม่สำเร็จ (เช็กพาธ/สิทธิ์ไฟล์บน GitHub หรือสะกดชื่อไฟล์)';
-    alert(msg);
-  }
+/* ===== Voice ===== */
+function getVoice(){
+  const voices=speechSynthesis.getVoices();
+  return state.voice ? voices.find(v=>v.name===state.voice) : voices.find(v=> v.lang?.toLowerCase().startsWith('en'));
+}
+function speak(text){
+  if(!('speechSynthesis' in window)) return;
+  const u=new SpeechSynthesisUtterance(text); const v=getVoice();
+  if(v) u.voice=v; u.rate=state.rate; u.lang='en-US'; speechSynthesis.cancel(); speechSynthesis.speak(u);
+}
+function speakCard(c){
+  const parts=[c.w]; // อ่านคำศัพท์ก่อน
+  const sents = Array.isArray(c.s)? c.s : (c.s? [c.s] : []);
+  if(sents.length){ parts.push(sents.join(' ')); } // ตามด้วยประโยคตัวอย่างทั้งหมด
+  speak(parts.join('. '));
 }
 
-/* ===== Other app code (stripped to essentials to keep size small) ===== */
+/* ===== UI: datasets ===== */
 function renderDatasets(){
   const wrap = qs('#datasets'); if(!wrap) return; wrap.innerHTML='';
   datasets.forEach(ds=>{
@@ -204,12 +211,8 @@ function renderDatasets(){
     wrap.appendChild(b);
   });
 }
-function speak(text){
-  if(!('speechSynthesis' in window)) return;
-  const u=new SpeechSynthesisUtterance(text), voices=speechSynthesis.getVoices();
-  const chosen = state.voice ? voices.find(v=>v.name===state.voice) : voices.find(v=> v.lang?.toLowerCase().startsWith('en'));
-  if(chosen) u.voice = chosen; u.rate = state.rate; speechSynthesis.cancel(); speechSynthesis.speak(u);
-}
+
+/* ===== Flashcards ===== */
 const PASTEL={ adjective:'var(--pastel-adj)',verb:'var(--pastel-verb)',thing:'var(--pastel-thing)',animal:'var(--pastel-animal)',time:'var(--pastel-time)',preposition:'var(--pastel-thing)' };
 const flashState = { order:[], idx:0, flipped:false };
 function Flashcards(fresh=true){
@@ -218,7 +221,7 @@ function Flashcards(fresh=true){
   const wrap=document.createElement('div'); wrap.className='flash-wrap';
   const card=document.createElement('div'); card.className='flash-card'; wrap.appendChild(card);
   function draw(){
-    const c=flashState.order[flashState.idx%flashState.order.length]; const bg=PASTEL[c.cat]||'var(--pastel-adj)'; card.style.background=bg;
+    const c=flashState.order[flashState.idx%flashState.order.length]; const bg=PASTEL[c.cat]||'#FFF6BF'; card.style.background=bg;
     card.innerHTML = !flashState.flipped
       ? `<div class="flash-badge">${(c.cat||'word')}</div><div class="flash-count">${flashState.idx+1}/${flashState.order.length}</div>
          <div><div class="flash-word">${c.w}</div><div class="flash-hint">แตะการ์ดเพื่อพลิก</div></div>`
@@ -232,23 +235,104 @@ function Flashcards(fresh=true){
   const again=document.createElement('button'); again.className='btn warn'; again.textContent='⟲ ยังจำไม่ได้';
   const readB=document.createElement('button'); readB.className='btn primary'; readB.textContent='🔊 อ่าน';
   const know=document.createElement('button'); know.className='btn ok'; know.textContent='✓ จำได้แล้ว';
-  readB.onclick=()=>{ const c=flashState.order[flashState.idx%flashState.order.length]; speak(c.w); };
+  readB.onclick=()=>{ const c=flashState.order[flashState.idx%flashState.order.length]; speakCard(c); };
   know.onclick=()=>{ flashState.order.splice(flashState.idx,1); if(!flashState.order.length){ flashState.order=[...items]; flashState.idx=0; } flashState.flipped=false; draw(); };
   again.onclick=()=>{ const cur=flashState.order[flashState.idx]; flashState.order.splice(flashState.idx,1); flashState.order.splice(Math.min(flashState.order.length,3),0,cur); flashState.flipped=false; draw(); };
   controls.append(again,readB,know); wrap.appendChild(controls); return wrap;
 }
-function ListenGame(){ return document.createTextNode('Listen Game (stub in patch).'); }
-function MatchGame(){ return document.createTextNode('Match Game (stub in patch).'); }
 
+/* ===== Match Game ===== */
+const matchState = { left:[], right:[], sel:null, solved:new Set(), mounted:false };
+function sample(arr,n){ const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=(Math.random()*(i+1))|0; [a[i],a[j]]=[a[j],a[i]];} return a.slice(0,n); }
+function MatchGame(fresh=true){
+  const words = currentWords(); if(words.length<6) return document.createTextNode('ต้องมีคำอย่างน้อย 6 คำ');
+  if(fresh || !matchState.mounted){
+    const subset = sample(words, Math.min(8, words.length));
+    matchState.left = subset.map(x=>({id:x.id, w:x.w}));
+    matchState.right= sample(subset, subset.length).map(x=>({id:x.id, th: words.find(w=>w.id===x.id)?.th || '' }));
+    matchState.sel=null; matchState.solved=new Set(); matchState.mounted=true;
+  }
+  const wrap=document.createElement('div');
+  const title=document.createElement('div'); title.className='muted'; title.textContent='แตะจับคู่คำอังกฤษให้ตรงกับคำไทย';
+  wrap.appendChild(title);
+  const grid=document.createElement('div'); grid.className='match-grid'; wrap.appendChild(grid);
+  const colL=document.createElement('div'); colL.className='match-col'; grid.appendChild(colL);
+  const colR=document.createElement('div'); colR.className='match-col'; grid.appendChild(colR);
+  function drawCol(){
+    colL.innerHTML=''; colR.innerHTML='';
+    matchState.left.forEach(it=>{
+      const b=document.createElement('div'); b.className='match-item'; if(matchState.solved.has(it.id)) b.classList.add('done');
+      if(matchState.sel && matchState.sel.side==='L' && matchState.sel.id===it.id) b.classList.add('sel');
+      b.textContent=it.w; b.onclick=()=>select('L',it.id); colL.appendChild(b);
+    });
+    matchState.right.forEach(it=>{
+      const b=document.createElement('div'); b.className='match-item'; if(matchState.solved.has(it.id)) b.classList.add('done');
+      if(matchState.sel && matchState.sel.side==='R' && matchState.sel.id===it.id) b.classList.add('sel');
+      b.textContent=it.th||'-'; b.onclick=()=>select('R',it.id); colR.appendChild(b);
+    });
+  }
+  function select(side,id){
+    if(matchState.solved.has(id)) return;
+    if(!matchState.sel){ matchState.sel={side,id}; drawCol(); return; }
+    if(matchState.sel.side!==side){
+      if(matchState.sel.id===id){ matchState.solved.add(id); matchState.sel=null; drawCol(); checkDone(); }
+      else{ matchState.sel={side,id}; drawCol(); }
+    }else{ matchState.sel={side,id}; drawCol(); }
+  }
+  function checkDone(){
+    if(matchState.solved.size===matchState.left.length){
+      const done=document.createElement('div'); done.style.textAlign='center'; done.style.marginTop='10px'; done.innerHTML='<div class="btn ok">เสร็จแล้ว! 🎉</div>';
+      wrap.appendChild(done);
+    }
+  }
+  drawCol(); checkDone(); return wrap;
+}
+
+/* ===== Listen Game (multiple-choice) ===== */
+const listenState={q:null, mounted:false, round:0};
+function ListenGame(fresh=true){
+  const words=currentWords(); if(words.length<4) return document.createTextNode('ต้องมีคำอย่างน้อย 4 คำ');
+  const wrap=document.createElement('div');
+  function next(){
+    const opts = sample(words,4);
+    const answer = opts[(Math.random()*4)|0];
+    listenState.q={opts,answer}; listenState.round++; draw();
+    setTimeout(()=> speakCard(answer), 200);
+  }
+  function draw(){
+    wrap.innerHTML='';
+    const head=document.createElement('div'); head.className='row'; head.style.justifyContent='space-between';
+    head.innerHTML=`<div class="muted">รอบ: ${listenState.round||1}</div>
+      <div class="row"><button class="btn" id="play">เล่นเสียง</button><button class="btn" id="shuffle">เปลี่ยนคำถาม</button></div>`;
+    wrap.appendChild(head);
+    const note=document.createElement('div'); note.className='muted'; note.textContent='ฟังเสียงแล้วเลือกคำที่ได้ยิน';
+    wrap.appendChild(note);
+    const opts=document.createElement('div'); opts.className='listen-opts'; wrap.appendChild(opts);
+    listenState.q.opts.forEach(o=>{
+      const b=document.createElement('button'); b.className='listen-btn'; b.textContent=o.w;
+      b.onclick=()=>{ if(b.dataset.answered) return; b.dataset.answered='1';
+        if(o.id===listenState.q.answer.id){ b.style.background='#dcfce7'; b.style.borderColor='#16a34a'; }
+        else{ b.style.background='#fee2e2'; b.style.borderColor='#ef4444'; }
+      };
+      opts.appendChild(b);
+    });
+    wrap.querySelector('#play').onclick=()=> speakCard(listenState.q.answer);
+    wrap.querySelector('#shuffle').onclick=()=> next();
+  }
+  if(fresh || !listenState.mounted){ listenState.mounted=true; next(); } else { draw(); }
+  return wrap;
+}
+
+/* ===== Root render ===== */
 function renderAll(fresh){
   view.innerHTML='';
   if(state.tab==='flash')  view.appendChild(Flashcards(fresh));
-  if(state.tab==='listen') view.appendChild(ListenGame());
-  if(state.tab==='match')  view.appendChild(MatchGame());
+  if(state.tab==='listen') view.appendChild(ListenGame(fresh));
+  if(state.tab==='match')  view.appendChild(MatchGame(fresh));
 }
 document.addEventListener('DOMContentLoaded', ()=>{
   renderAll(true);
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=10').catch(()=>{}); }
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=11').catch(()=>{}); }
 });
 document.querySelectorAll('.tabs .btn').forEach(b=> b.onclick=()=>{ state.tab=b.dataset.tab; document.querySelectorAll('.tabs .btn').forEach(x=>x.classList.toggle('primary', x===b)); renderAll(true); });
 qs('#openModal').onclick=()=>{ document.getElementById('modal').style.display='flex'; renderDatasets(); };
@@ -259,13 +343,13 @@ qs('#rate').oninput=(e)=>{ state.rate = Number(e.target.value)/100; };
 // Modal actions
 qs('#fileInput').addEventListener('change', async (e)=>{
   const file=e.target.files?.[0]; if(!file) return;
-  const text=await file.text(); console.log('[Local CSV first line]', (text.split(/\\r?\\n/)[0]||'').slice(0,200));
+  const text=await file.text(); console.log('[Local first line]', (text.split(/\\r?\\n/)[0]||'').slice(0,200));
   let words=[];
   if(file.name.toLowerCase().endsWith('.json')){
     const data = JSON.parse(text);
     words=(Array.isArray(data)?data:[]).map((x,i)=>({id:Date.now()+i,w:x.w,th:x.th||'',s:Array.isArray(x.s)?x.s:(x.s?[x.s]:[]),cat:x.cat||''})).filter(x=>x.w);
   }else{
-    words=parseCSV(text).map(x=>({...x,s:Array.isArray(x.s)?x.s:(x.s?[x.s]:[])}));
+    words=parseCSV(text);
   }
   if(!words.length) return alert('ไฟล์ว่างหรือหัวคอลัมน์ไม่ถูกต้อง');
   const dsId="csv_"+Date.now(); const name=file.name.replace(/\\.(csv|txt|json)$/i,'');
@@ -274,7 +358,21 @@ qs('#fileInput').addEventListener('change', async (e)=>{
 });
 qs('#importURL').onclick=async ()=>{
   const url = qs('#urlInput').value.trim(); if(!url) return alert('กรอก URL ก่อน');
-  await importFromURL(url);
+  try{
+    const res = await fetch(url, {cache:'no-store'}); if(!res.ok) throw new Error('http_'+res.status);
+    const text = await res.text(); console.log('[CSV first line]', (text.split(/\\r?\\n/)[0]||'').slice(0,200));
+    const words = parseCSV(text);
+    if(!words.length) throw new Error('empty');
+    const dsId="csv_"+Date.now(); const name=url.split('/').pop().split('?')[0];
+    datasets = store.datasets; datasets.push({id:dsId, name, words}); store.datasets=datasets; store.active=dsId; state.active=dsId;
+    renderDatasets(); renderAll(true); alert('นำเข้าจาก URL สำเร็จ');
+  }catch(err){
+    console.error('Import URL failed:', err);
+    let msg='ไฟล์หรือหัวคอลัมน์ไม่ถูกต้อง';
+    if(String(err).includes('bad_header')) msg='หัวคอลัมน์ควรมีอย่างน้อย w และ th (รองรับ word/thai/sentences/category ด้วย)';
+    if(String(err).includes('http_')) msg='โหลดไฟล์ไม่สำเร็จ (เช็กพาธ/สิทธิ์ไฟล์บน GitHub หรือสะกดชื่อไฟล์)';
+    alert(msg);
+  }
 };
 </script>
 </body>
