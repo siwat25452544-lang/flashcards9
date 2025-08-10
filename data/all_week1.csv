@@ -1,3 +1,210 @@
 w,th,s,cat
 hello,สวัสดี,Hello! How are you?|We say hello to friends.,daily
 water,น้ำ,Please drink water.|Water is clear.,daily
+apple,แอปเปิ้ล,I eat an apple every morning.|She gave me a red apple.,food
+book,หนังสือ,I read a book before bed.|This book is interesting.,school
+cat,แมว,The cat is sleeping.|I love my cat.,animals
+dog,สุนัข,The dog is barking.|My dog likes to play.,animals
+milk,นม,I drink milk every day.|Milk is healthy.,food
+rice,ข้าว,We eat rice for lunch.|Rice is hot.,food
+bread,ขนมปัง,He eats bread with jam.|The bread is fresh.,food
+car,รถยนต์,My car is new.|We go to school by car.,transport
+bus,รถบัส,The bus is full.|Wait for the bus here.,transport
+school,โรงเรียน,I go to school every day.|Our school is big.,school
+teacher,ครู,The teacher writes on the board.|My teacher is kind.,school
+friend,เพื่อน,She is my friend.|I play with my friends.,people
+happy,มีความสุข,I am happy today.|They look happy.,feel
+sad,เศร้า,He feels sad.|The story made her sad.,feel
+run,วิ่ง,I run fast.|Run to the bus!,play
+walk,เดิน,We walk to school.|Walk slowly.,daily
+eat,กิน,We eat dinner at six.|She eats a banana.,daily
+drink,ดื่ม,Please drink some water.|He drinks milk.,daily
+play,เล่น,They play soccer.|She plays the piano.,play
+house,บ้าน,This is my house.|We are at home.,home
+door,ประตู,"Open the door.|Close the door, please.",home
+window,หน้าต่าง,The window is open.|Please close the window.,home
+chair,เก้าอี้,Sit on the chair.|This chair is new.,home
+table,โต๊ะ,Put the book on the table.|We sit at the table.,home
+sun,ดวงอาทิตย์,The sun is bright.|The sun rises in the morning.,nature
+moon,พระจันทร์,The moon is beautiful.|We can see the moon.,nature
+star,ดาว,I see many stars.|Stars shine at night.,nature
+bird,นก,The bird can fly.|I see a bird in the tree.,animals
+ball,ลูกบอล,Ball is fun.|We like ball.,play
+pencil,ดินสอ,This is my pencil.|I like the pencil.,school
+notebook,สมุด,This is my notebook.|I like the notebook.,school
+eraser,ยางลบ,This is my eraser.|I like the eraser.,school
+ruler,ไม้บรรทัด,This is my ruler.|I like the ruler.,school
+phone,โทรศัพท์,This is my phone.|I like the phone.,home
+computer,คอมพิวเตอร์,This is my computer.|I like the computer.,home
+television,ทีวี,This is my television.|I like the television.,home
+light,ไฟ,This is my light.|I like the light.,home
+fan,พัดลม,This is my fan.|I like the fan.,home
+shirt,เสื้อ,This is my shirt.|I like the shirt.,home
+pants,กางเกง,This is my pants.|I like the pants.,home
+shoes,รองเท้า,This is my shoes.|I like the shoes.,home
+hat,หมวก,This is my hat.|I like the hat.,home
+jacket,เสื้อแจ็กเก็ต,This is my jacket.|I like the jacket.,home
+red,สีแดง,Red is fun.|We like red.,daily
+blue,สีน้ำเงิน,Blue is fun.|We like blue.,daily
+green,สีเขียว,Green is fun.|We like green.,daily
+yellow,สีเหลือง,Yellow is fun.|We like yellow.,daily
+black,สีดำ,Black is fun.|We like black.,daily
+white,สีขาว,White is fun.|We like white.,daily
+brown,สีน้ำตาล,Brown is fun.|We like brown.,daily
+pink,สีชมพู,Pink is fun.|We like pink.,daily
+purple,สีม่วง,Purple is fun.|We like purple.,daily
+orange,สีส้ม,Orange is fun.|We like orange.,daily
+big,ใหญ่,Big is fun.|We like big.,daily
+small,เล็ก,Small is fun.|We like small.,daily
+long,ยาว,Long is fun.|We like long.,daily
+short,สั้น,Short is fun.|We like short.,daily
+bag,กระเป๋า,This is my bag.|I like the bag.,school
+boat,เรือ,I see a boat.|The {w} is here.,transport
+train,รถไฟ,I see a train.|The {w} is here.,transport
+plane,เครื่องบิน,I see a plane.|The {w} is here.,transport
+bike,จักรยาน,I see a bike.|The {w} is here.,transport
+road,ถนน,Road is fun.|We like road.,daily
+bridge,สะพาน,Bridge is fun.|We like bridge.,daily
+park,สวนสาธารณะ,Park is fun.|We like park.,daily
+hospital,โรงพยาบาล,Hospital is fun.|We like hospital.,daily
+shop,ร้านค้า,Shop is fun.|We like shop.,daily
+market,ตลาด,Market is fun.|We like market.,daily
+bank,ธนาคาร,Bank is fun.|We like bank.,daily
+post office,ไปรษณีย์,Post office is fun.|We like post office.,daily
+library,ห้องสมุด,This is my library.|I like the library.,school
+room,ห้อง,This is my room.|I like the room.,home
+kitchen,ห้องครัว,This is my kitchen.|I like the kitchen.,home
+bathroom,ห้องน้ำ,This is my bathroom.|I like the bathroom.,home
+bedroom,ห้องนอน,This is my bedroom.|I like the bedroom.,home
+bed,เตียง,This is my bed.|I like the bed.,home
+floor,พื้น,This is my floor.|I like the floor.,home
+wall,ผนัง,This is my wall.|I like the wall.,home
+city,เมือง,City is fun.|We like city.,daily
+village,หมู่บ้าน,Village is fun.|We like village.,daily
+river,แม่น้ำ,I see a river.|The {w} is here.,nature
+mountain,ภูเขา,I see a mountain.|The {w} is here.,nature
+tree,ต้นไม้,I see a tree.|The {w} is here.,nature
+flower,ดอกไม้,I see a flower.|The {w} is here.,nature
+leaf,ใบไม้,I see a leaf.|The {w} is here.,nature
+grass,หญ้า,I see a grass.|The {w} is here.,nature
+stone,ก้อนหิน,I see a stone.|The {w} is here.,nature
+sand,ทราย,I see a sand.|The {w} is here.,nature
+rain,ฝน,Rain is fun.|We like rain.,daily
+sunny,แดดออก,Sunny is fun.|We like sunny.,daily
+cloud,เมฆ,Cloud is fun.|We like cloud.,daily
+wind,ลม,Wind is fun.|We like wind.,daily
+snow,หิมะ,Snow is fun.|We like snow.,daily
+today,วันนี้,Today is fun.|We like today.,daily
+yesterday,เมื่อวาน,Yesterday is fun.|We like yesterday.,daily
+tomorrow,พรุ่งนี้,Tomorrow is fun.|We like tomorrow.,daily
+morning,ตอนเช้า,Morning is fun.|We like morning.,daily
+afternoon,ตอนบ่าย,Afternoon is fun.|We like afternoon.,daily
+evening,ตอนเย็น,Evening is fun.|We like evening.,daily
+night,กลางคืน,Night is fun.|We like night.,daily
+always,เสมอ,Always is fun.|We like always.,daily
+usually,มักจะ,Usually is fun.|We like usually.,daily
+often,บ่อย,Often is fun.|We like often.,daily
+sometimes,บางครั้ง,Sometimes is fun.|We like sometimes.,daily
+never,ไม่เคย,Never is fun.|We like never.,daily
+want,ต้องการ,I want every day.|Please want now.,verb
+need,จำเป็น/ต้องการ,I need every day.|Please need now.,verb
+like,ชอบ,I like every day.|Please like now.,verb
+love,รัก,I love every day.|Please love now.,verb
+have,มี,I have every day.|Please have now.,verb
+make,ทำ,I make every day.|Please make now.,verb
+get,ได้รับ,I get every day.|Please get now.,verb
+give,ให้,I give every day.|Please give now.,verb
+take,เอา/พา,I take every day.|Please take now.,verb
+bring,นำมา,I bring every day.|Please bring now.,verb
+buy,ซื้อ,I buy every day.|Please buy now.,verb
+sell,ขาย,I sell every day.|Please sell now.,verb
+find,หา,I find every day.|Please find now.,verb
+use,ใช้,I use every day.|Please use now.,verb
+try,ลอง,I try every day.|Please try now.,verb
+start,เริ่ม,I start every day.|Please start now.,verb
+finish,จบ,I finish every day.|Please finish now.,verb
+wait,รอ,I wait every day.|Please wait now.,verb
+call,โทร,I call every day.|Please call now.,verb
+show,แสดง,I show every day.|Please show now.,verb
+tell,บอก,I tell every day.|Please tell now.,verb
+ask,ถาม,I ask every day.|Please ask now.,verb
+answer,ตอบ,I answer every day.|Please answer now.,verb
+learn,เรียนรู้,I learn every day.|Please learn now.,verb
+study,อ่านหนังสือ,I study every day.|Please study now.,verb
+practice,ฝึกฝน,I practice every day.|Please practice now.,verb
+spell,สะกด,I spell every day.|Please spell now.,verb
+count,นับ,I count every day.|Please count now.,verb
+draw,วาดรูป,I draw every day.|Please draw now.,verb
+share,แบ่งปัน,I share every day.|Please share now.,verb
+dance,เต้น,I dance every day.|Please dance now.,verb
+sing,ร้องเพลง,I sing every day.|Please sing now.,verb
+smile,ยิ้ม,Smile is fun.|We like smile.,daily
+laugh,หัวเราะ,Laugh is fun.|We like laugh.,daily
+cry,ร้องไห้,Cry is fun.|We like cry.,daily
+clean,ทำความสะอาด,This is my clean.|I like the clean.,home
+cook,ทำอาหาร,This is my cook.|I like the cook.,home
+wash,ล้าง,This is my wash.|I like the wash.,home
+open,เปิด,This is my open.|I like the open.,home
+close,ปิด,This is my close.|I like the close.,home
+sit,นั่ง,This is my sit.|I like the sit.,school
+stand,ยืน,This is my stand.|I like the stand.,school
+zoo,สวนสัตว์,Zoo is fun.|We like zoo.,daily
+museum,พิพิธภัณฑ์,Museum is fun.|We like museum.,daily
+office,สำนักงาน,Office is fun.|We like office.,daily
+factory,โรงงาน,Factory is fun.|We like factory.,daily
+movie,ภาพยนตร์,Movie is fun.|We like movie.,daily
+game,เกม,Game is fun.|We like game.,daily
+music,ดนตรี,Music is fun.|We like music.,daily
+song,เพลง,Song is fun.|We like song.,daily
+taste,ชิม,I taste every day.|Please taste now.,verb
+smell,ดมกลิ่น,I smell every day.|Please smell now.,verb
+touch,แตะ,I touch every day.|Please touch now.,verb
+watch,ดู,I watch every day.|Please watch now.,verb
+father,พ่อ,I see a father.|The {w} is here.,people
+mother,แม่,I see a mother.|The {w} is here.,people
+brother,พี่ชาย/น้องชาย,I see a brother.|The {w} is here.,people
+sister,พี่สาว/น้องสาว,I see a sister.|The {w} is here.,people
+grandma,ย่า/ยาย,I see a grandma.|The {w} is here.,people
+grandpa,ปู่/ตา,I see a grandpa.|The {w} is here.,people
+baby,ทารก,I see a baby.|The {w} is here.,people
+boy,เด็กผู้ชาย,I see a boy.|The {w} is here.,people
+girl,เด็กผู้หญิง,I see a girl.|The {w} is here.,people
+teacher's desk,โต๊ะครู,This is my teacher's desk.|I like the teacher's desk.,school
+homework,การบ้าน,This is my homework.|I like the homework.,school
+test,แบบทดสอบ,This is my test.|I like the test.,school
+glue,กาว,This is my glue.|I like the glue.,school
+paint,สีทา,This is my paint.|I like the paint.,school
+sweep,กวาด,This is my sweep.|I like the sweep.,home
+mop,ถูพื้น,This is my mop.|I like the mop.,home
+push,ผลัก,I push every day.|Please push now.,verb
+pull,ดึง,I pull every day.|Please pull now.,verb
+throw,โยน,I throw every day.|Please throw now.,verb
+catch,จับ,I catch every day.|Please catch now.,verb
+hug,กอด,I hug every day.|Please hug now.,verb
+thank,ขอบคุณ,Thank is fun.|We like thank.,daily
+sorry,ขอโทษ,Sorry is fun.|We like sorry.,daily
+please,กรุณา,Please is fun.|We like please.,daily
+goodbye,ลาก่อน,Goodbye is fun.|We like goodbye.,daily
+welcome,ยินดีต้อนรับ,Welcome is fun.|We like welcome.,daily
+near,ใกล้,Near is fun.|We like near.,daily
+far,ไกล,Far is fun.|We like far.,daily
+before,ก่อน,Before is fun.|We like before.,daily
+after,หลัง,After is fun.|We like after.,daily
+first,อันดับแรก,First is fun.|We like first.,daily
+next,ถัดไป,Next is fun.|We like next.,daily
+last,สุดท้าย,Last is fun.|We like last.,daily
+hour,ชั่วโมง,Hour is fun.|We like hour.,daily
+minute,นาที,Minute is fun.|We like minute.,daily
+second,วินาที,Second is fun.|We like second.,daily
+hand,มือ,Hand is fun.|We like hand.,daily
+foot,เท้า,Foot is fun.|We like foot.,daily
+head,หัว,Head is fun.|We like head.,daily
+eyes,ดวงตา,Eyes is fun.|We like eyes.,daily
+ears,หู,Ears is fun.|We like ears.,daily
+mouth,ปาก,Mouth is fun.|We like mouth.,daily
+nose,จมูก,Nose is fun.|We like nose.,daily
+doctor,หมอ,Doctor is fun.|We like doctor.,daily
+nurse,พยาบาล,Nurse is fun.|We like nurse.,daily
+police,ตำรวจ,Police is fun.|We like police.,daily
+firefighter,นักดับเพลิง,Firefighter is fun.|We like firefighter.,daily
+farmer,ชาวนา,Farmer is fun.|We like farmer.,daily

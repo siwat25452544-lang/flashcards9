@@ -1,0 +1,31 @@
+w,th,s,cat
+zoo,สวนสัตว์,Zoo is fun.|We like zoo.,daily
+museum,พิพิธภัณฑ์,Museum is fun.|We like museum.,daily
+office,สำนักงาน,Office is fun.|We like office.,daily
+factory,โรงงาน,Factory is fun.|We like factory.,daily
+movie,ภาพยนตร์,Movie is fun.|We like movie.,daily
+game,เกม,Game is fun.|We like game.,daily
+music,ดนตรี,Music is fun.|We like music.,daily
+song,เพลง,Song is fun.|We like song.,daily
+taste,ชิม,I taste every day.|Please taste now.,verb
+smell,ดมกลิ่น,I smell every day.|Please smell now.,verb
+touch,แตะ,I touch every day.|Please touch now.,verb
+watch,ดู,I watch every day.|Please watch now.,verb
+father,พ่อ,I see a father.|The {w} is here.,people
+mother,แม่,I see a mother.|The {w} is here.,people
+brother,พี่ชาย/น้องชาย,I see a brother.|The {w} is here.,people
+sister,พี่สาว/น้องสาว,I see a sister.|The {w} is here.,people
+grandma,ย่า/ยาย,I see a grandma.|The {w} is here.,people
+grandpa,ปู่/ตา,I see a grandpa.|The {w} is here.,people
+baby,ทารก,I see a baby.|The {w} is here.,people
+boy,เด็กผู้ชาย,I see a boy.|The {w} is here.,people
+girl,เด็กผู้หญิง,I see a girl.|The {w} is here.,people
+teacher's desk,โต๊ะครู,This is my teacher's desk.|I like the teacher's desk.,school
+homework,การบ้าน,This is my homework.|I like the homework.,school
+test,แบบทดสอบ,This is my test.|I like the test.,school
+glue,กาว,This is my glue.|I like the glue.,school
+paint,สีทา,This is my paint.|I like the paint.,school
+sweep,กวาด,This is my sweep.|I like the sweep.,home
+mop,ถูพื้น,This is my mop.|I like the mop.,home
+push,ผลัก,I push every day.|Please push now.,verb
+pull,ดึง,I pull every day.|Please pull now.,verb

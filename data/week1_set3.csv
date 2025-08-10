@@ -1,0 +1,31 @@
+w,th,s,cat
+boat,เรือ,I see a boat.|The {w} is here.,transport
+train,รถไฟ,I see a train.|The {w} is here.,transport
+plane,เครื่องบิน,I see a plane.|The {w} is here.,transport
+bike,จักรยาน,I see a bike.|The {w} is here.,transport
+road,ถนน,Road is fun.|We like road.,daily
+bridge,สะพาน,Bridge is fun.|We like bridge.,daily
+park,สวนสาธารณะ,Park is fun.|We like park.,daily
+hospital,โรงพยาบาล,Hospital is fun.|We like hospital.,daily
+shop,ร้านค้า,Shop is fun.|We like shop.,daily
+market,ตลาด,Market is fun.|We like market.,daily
+bank,ธนาคาร,Bank is fun.|We like bank.,daily
+post office,ไปรษณีย์,Post office is fun.|We like post office.,daily
+library,ห้องสมุด,This is my library.|I like the library.,school
+room,ห้อง,This is my room.|I like the room.,home
+kitchen,ห้องครัว,This is my kitchen.|I like the kitchen.,home
+bathroom,ห้องน้ำ,This is my bathroom.|I like the bathroom.,home
+bedroom,ห้องนอน,This is my bedroom.|I like the bedroom.,home
+bed,เตียง,This is my bed.|I like the bed.,home
+floor,พื้น,This is my floor.|I like the floor.,home
+wall,ผนัง,This is my wall.|I like the wall.,home
+city,เมือง,City is fun.|We like city.,daily
+village,หมู่บ้าน,Village is fun.|We like village.,daily
+river,แม่น้ำ,I see a river.|The {w} is here.,nature
+mountain,ภูเขา,I see a mountain.|The {w} is here.,nature
+tree,ต้นไม้,I see a tree.|The {w} is here.,nature
+flower,ดอกไม้,I see a flower.|The {w} is here.,nature
+leaf,ใบไม้,I see a leaf.|The {w} is here.,nature
+grass,หญ้า,I see a grass.|The {w} is here.,nature
+stone,ก้อนหิน,I see a stone.|The {w} is here.,nature
+sand,ทราย,I see a sand.|The {w} is here.,nature
