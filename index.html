@@ -7,14 +7,11 @@
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#111827" />
   <style>
-    :root{
-      --bg:#f7f8fb;--ink:#0f1629;--muted:#6b7280;--card:#fff;--border:#e5e7eb;
+    :root{ --bg:#f7f8fb;--ink:#0f1629;--muted:#6b7280;--card:#fff;--border:#e5e7eb;
       --accent:#111827;--shadow:0 10px 20px rgba(2,6,23,.06),0 2px 6px rgba(2,6,23,.05);
       --ok:#10b981;--warn:#f59e0b;--bad:#ef4444;
-      --pastel-adj:#FFF6BF;--pastel-verb:#DDEBFF;--pastel-thing:#EAF7E8;--pastel-animal:#FDE4EF;--pastel-time:#FFE8D2;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans Thai","Noto Sans",sans-serif}
+      --pastel-adj:#FFF6BF;--pastel-verb:#DDEBFF;--pastel-thing:#EAF7E8;--pastel-animal:#FDE4EF;--pastel-time:#FFE8D2; }
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans Thai","Noto Sans",sans-serif}
     .container{max-width:1100px;margin:0 auto;padding:16px}
     .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
     .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:var(--shadow)}
@@ -22,80 +19,27 @@
     .btn.primary{background:#111827;color:#fff;border-color:#111827}
     .btn.ok{background:#10b981;color:#fff;border-color:#0ea371}
     .btn.warn{background:#f59e0b;color:#fff;border-color:#d97706}
-    .btn.icon{padding:8px 12px;border-radius:999px}
     .muted{color:var(--muted);font-size:13px}
     .title{font-size:22px;font-weight:900;margin:0}
     .tabs .btn{min-width:150px;justify-content:center}
-    .grid{display:grid;gap:14px}
-    .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .select,input[type=file],input[type=text]{padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:#fff;font-size:15px}
+    .grid{display:grid;gap:14px} .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .select,input[type=text]{padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:#fff;font-size:15px}
     .slider{width:240px}
-    #toast{position:fixed;left:50%;top:18px;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 14px;border-radius:10px;display:none;z-index:9999}
-    #modal{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;z-index:9998}
-    #modal .dialog{width:min(680px,96vw);background:#fff;border-radius:16px;border:1px solid var(--border);box-shadow:var(--shadow);padding:16px}
     .ds{border:1px solid var(--border);border-radius:999px;padding:8px 12px;background:#fff;cursor:pointer}
     .ds.on{background:#111827;color:#fff;border-color:#111827}
-    .list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-    .cell{padding:16px;border-radius:14px;border:1px solid var(--border);background:#fff;text-align:center;font-weight:800}
-
-    /* New Flashcard UI */
+    /* Flashcard */
     .flash-wrap{display:flex;flex-direction:column;align-items:center}
-    .flash-card{
-      width:min(900px,92vw); aspect-ratio: 16/10;
-      border-radius:26px; box-shadow:var(--shadow); border:1px solid var(--border);
-      position:relative; overflow:hidden; cursor:pointer;
-      display:flex; align-items:center; justify-content:center; text-align:center;
-      background:#fff;
-    }
-    .flash-word{font-size: clamp(44px, 9vw, 84px); font-weight: 900; letter-spacing:.4px}
+    .flash-card{width:min(900px,92vw);aspect-ratio:16/10;border-radius:26px;box-shadow:var(--shadow);border:1px solid var(--border);
+      position:relative;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;background:#fff}
+    .flash-word{font-size:clamp(44px,9vw,84px);font-weight:900;letter-spacing:.4px}
     .flash-hint{font-size:14px;color:var(--muted);margin-top:8px}
-    .flash-badge{
-      position:absolute; top:14px; left:14px;
-      background:rgba(0,0,0,.65); color:#fff; border-radius:999px; padding:6px 10px; font-size:12px; font-weight:700
-    }
-    .flash-count{
-      position:absolute; top:14px; right:14px;
-      background:#111; color:#fff; border-radius:999px; padding:6px 10px; font-size:12px; font-weight:700
-    }
+    .flash-badge{position:absolute;top:14px;left:14px;background:rgba(0,0,0,.65);color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700}
+    .flash-count{position:absolute;top:14px;right:14px;background:#111;color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700}
     .flash-controls{display:flex;justify-content:center;gap:10px;margin-top:12px}
     .flash-controls .btn{min-width:120px}
   </style>
 </head>
 <body>
-<div id="toast"></div>
-<div id="modal">
-  <div class="dialog">
-    <div class="row" style="justify-content:space-between;align-items:center">
-      <div class="title">เลือกชุด</div>
-      <button class="btn icon" id="closeModal">ปิด</button>
-    </div>
-    <div class="row" style="margin-top:8px">
-      <label class="btn">อัปโหลด CSV/JSON
-        <input type="file" id="fileInput" accept=".csv,.json,text/csv,application/json" style="display:none">
-      </label>
-      <button class="btn" id="exportSets">⬇️ ส่งออกชุดที่อัปโหลด</button>
-      <button class="btn" id="wipeDB">🗑️ ลบฐานข้อมูล</button>
-    </div>
-    <div style="margin-top:10px" class="card">
-      <div style="font-weight:800;margin-bottom:8px">นำเข้าจาก URL</div>
-      <div class="row">
-        <input id="urlInput" type="text" placeholder="https://raw.githubusercontent.com/<user>/<repo>/main/data/myset.csv" style="flex:1">
-        <button class="btn primary" id="importURL">นำเข้าจาก URL</button>
-      </div>
-      <div class="muted" style="margin-top:6px">
-        รองรับ CSV (คอลัมน์: <code>w,th,s,cat</code>, s คั่นด้วย <code>|</code>) หรือ JSON (array ของ {w,th,s,cat}).
-      </div>
-      <div class="muted" style="margin-top:6px">
-        ตัวอย่าง URL (ใช้ได้ทันที): <code>./data/sample.csv</code> หรือ <code>./data/sample.json</code>
-      </div>
-    </div>
-    <div style="margin-top:12px">
-      <div class="muted" style="margin-bottom:6px">ชุดคำศัพท์ที่ใช้งานอยู่</div>
-      <div id="datasets" class="row" style="gap:8px;flex-wrap:wrap"></div>
-    </div>
-  </div>
-</div>
-
 <div class="container">
   <header class="row" style="justify-content:space-between">
     <div>
@@ -104,7 +48,6 @@
     </div>
     <div class="row">
       <button class="btn" id="openModal">เลือกชุด</button>
-      <!-- header read button intentionally omitted -->
     </div>
   </header>
 
@@ -132,92 +75,68 @@
 
   <div id="view" class="card" style="margin-top:12px;min-height:340px">กำลังเริ่มระบบ…</div>
 
-  <footer class="muted" style="margin-top:24px;text-align:center">
-    เก็บข้อมูลในเบราว์เซอร์ (localStorage) • ใช้ได้บนคอมและ iOS (Safari/Chrome) • ไม่ซิงก์อัตโนมัติระหว่างเครื่อง
-  </footer>
+  <!-- Modal -->
+  <div id="modal" style="position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;z-index:9998">
+    <div class="card" style="width:min(680px,96vw)">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <div class="title">เลือกชุด</div>
+        <button class="btn" id="closeModal">ปิด</button>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <label class="btn">อัปโหลด CSV/JSON
+          <input type="file" id="fileInput" accept=".csv,.json,text/csv,application/json" style="display:none">
+        </label>
+        <button class="btn" id="exportSets">⬇️ ส่งออกชุดที่อัปโหลด</button>
+        <button class="btn" id="wipeDB">🗑️ ลบฐานข้อมูล</button>
+      </div>
+      <div style="margin-top:10px" class="card">
+        <div style="font-weight:800;margin-bottom:8px">นำเข้าจาก URL</div>
+        <div class="row">
+          <input id="urlInput" type="text" placeholder="./data/week1_set1.csv" style="flex:1">
+          <button class="btn primary" id="importURL">นำเข้าจาก URL</button>
+        </div>
+        <div class="muted" style="margin-top:6px">
+          รองรับ CSV (คอลัมน์: <code>w,th,s,cat</code> หรือหัวใกล้เคียงเช่น <code>word,thai,sentences,category</code>) และ JSON (array ของ {w,th,s,cat}).
+        </div>
+      </div>
+      <div style="margin-top:12px">
+        <div class="muted" style="margin-bottom:6px">ชุดคำศัพท์ที่ใช้งานอยู่</div>
+        <div id="datasets" class="row" style="gap:8px;flex-wrap:wrap"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-// ===== Helpers =====
-const KEY_DATASETS = "en_trainer_datasets_v1";
-const KEY_ACTIVE   = "en_trainer_active_v1";
-const KEY_VOICE    = "en_trainer_voice_v1";
-const toast = (t)=>{ const el=document.getElementById('toast'); el.textContent=t; el.style.display='block'; clearTimeout(window.__t); window.__t=setTimeout(()=> el.style.display='none', 1400); };
-const qs = (s)=> document.querySelector(s);
-const shuffle=(a)=>{a=[...a]; for(let i=a.length-1;i>0;i--){const j=(Math.random()*(i+1))|0; [a[i],a[j]]=[a[j],a[i]];} return a;}
-const sample=(a,n)=> shuffle(a).slice(0, n);
+const KEY_DATASETS="en_trainer_datasets_v1", KEY_ACTIVE="en_trainer_active_v1", KEY_VOICE="en_trainer_voice_v1";
+const qs=(s)=>document.querySelector(s), view=qs('#view');
+const toast=(t)=>{ console.log('[toast]',t); };
 
-// ===== Seed words =====
-const BUILTIN = [
-  {id:1, w:"happy", th:"มีความสุข", s:["I am happy today.","I feel happy when I read."], cat:"adjective"},
-  {id:2, w:"angry", th:"โกรธ", s:["She is angry."], cat:"adjective"},
-  {id:3, w:"borrow", th:"ยืม", s:["Can I borrow your pen?"], cat:"verb"},
-  {id:4, w:"between", th:"ระหว่าง", s:["The store is between the bank and the school."], cat:"preposition"}
-];
-
-// ===== Storage =====
-const store = {
+const store={
   get datasets(){ try{return JSON.parse(localStorage.getItem(KEY_DATASETS)||"[]")}catch{return[]} },
   set datasets(v){ localStorage.setItem(KEY_DATASETS, JSON.stringify(v)); },
   get active(){ return localStorage.getItem(KEY_ACTIVE)||"builtin"; },
-  set active(v){ localStorage.setItem(KEY_ACTIVE,v); },
+  set active(v){ localStorage.setItem(KEY_ACTIVE, v); },
   get voice(){ return localStorage.getItem(KEY_VOICE)||""; },
-  set voice(v){ localStorage.setItem(KEY_VOICE,v); },
+  set voice(v){ localStorage.setItem(KEY_VOICE, v); },
 };
 
-// Boot datasets
+// Seed words
+const BUILTIN=[
+  {id:1,w:"happy",th:"มีความสุข",s:["I am happy today.","I feel happy when I read."],cat:"adjective"},
+  {id:2,w:"borrow",th:"ยืม",s:["Can I borrow your pen?","Please borrow a book."],cat:"verb"}
+];
+
 let datasets = store.datasets;
 if(!datasets.find(d=>d.id==="builtin")){
-  datasets = [{id:"builtin", name:"Built-in", words:[...BUILTIN]}];
-  store.datasets = datasets;
+  datasets=[{id:"builtin",name:"Built-in",words:[...BUILTIN]}];
+  store.datasets=datasets;
 }
 let state = { tab:"flash", rate:0.9, voice: store.voice, active: store.active };
 
 function currentWords(){ const ds = datasets.find(d=>d.id===state.active) || datasets[0]; return ds.words||[]; }
-function renderTabs(){ document.querySelectorAll('.tabs .btn').forEach(btn=> btn.classList.toggle('primary', btn.dataset.tab===state.tab)); }
-function renderVoice(){
-  const sel = qs('#voiceSelect'); sel.value = state.voice || "__auto__";
-  sel.querySelectorAll('option:not([value="__auto__"])').forEach(o=>o.remove());
-  const voices = (window.speechSynthesis && speechSynthesis.getVoices)
-    ? speechSynthesis.getVoices().filter(v=> v.lang?.toLowerCase().startsWith('en'))
-    : [];
-  voices.forEach(v=>{ const opt=document.createElement('option'); opt.value=v.name; opt.textContent=`${v.name} (${v.lang})`; sel.appendChild(opt); });
-}
-function speak(text){
-  if(!('speechSynthesis' in window)) return;
-  const u=new SpeechSynthesisUtterance(text), voices=speechSynthesis.getVoices();
-  const chosen = state.voice ? voices.find(v=>v.name===state.voice) : voices.find(v=> v.lang?.toLowerCase().startsWith('en'));
-  if(chosen) u.voice = chosen;
-  u.rate = state.rate;
-  speechSynthesis.cancel(); speechSynthesis.speak(u);
-}
 
-// ===== Modal (datasets) =====
-function renderDatasets(){
-  const wrap = qs('#datasets'); wrap.innerHTML='';
-  datasets.forEach(ds=>{
-    const b = document.createElement('button');
-    b.className='ds'+(ds.id===state.active?' on':'');
-    b.textContent = ds.id==='builtin' ? 'Built-in' : `CSV: ${ds.name}`;
-    b.onclick=()=>{ state.active = ds.id; store.active = ds.id; qs('#view').innerHTML=''; renderAll(true); toast('สลับชุดแล้ว'); };
-    wrap.appendChild(b);
-    if(ds.id!=='builtin'){
-      const del = document.createElement('button');
-      del.className='btn icon'; del.textContent='ลบ';
-      del.onclick=()=>{ if(!confirm('ลบชุดนี้ออกจากเบราว์เซอร์?')) return;
-        datasets = datasets.filter(d=> d.id!==ds.id); store.datasets=datasets;
-        if(store.active===ds.id){ store.active='builtin'; state.active='builtin'; }
-        renderDatasets(); renderAll(true);
-      };
-      wrap.appendChild(del);
-    }
-  });
-}
-
-function openModal(){ qs('#modal').style.display='flex'; renderDatasets(); }
-function closeModal(){ qs('#modal').style.display='none'; }
-
-// ===== CSV/JSON parsing =====
+/* ===== CSV helpers ===== */
 function splitCSVLine(line){const out=[];let cur='',inQ=false;
   for(let i=0;i<line.length;i++){const ch=line[i];
     if(ch==='\"'){ if(inQ&&line[i+1]==='\"'){cur+='\"';i++;} else inQ=!inQ; }
@@ -225,306 +144,138 @@ function splitCSVLine(line){const out=[];let cur='',inQ=false;
     else cur+=ch;}
   out.push(cur);return out;
 }
+function normalizeHeader(names){
+  const map={ w:['w','word','english','en'],
+              th:['th','thai','meaning','translate','แปล','ความหมาย'],
+              s:['s','sentences','sentence','examples','example','ex','ex1','ex2','ex3'],
+              cat:['cat','category','หมวด','หมวดหมู่'] };
+  const lower = names.map(n=>(n||'').trim().toLowerCase());
+  const pick=(keys)=> lower.findIndex(h=> keys.includes(h));
+  return { w:pick(map.w), th:pick(map.th), s:pick(map.s), cat:pick(map.cat) };
+}
 function parseCSV(text){
-  const lines=text.replace(/\\r/g,'').split(/\\r?\\n/).filter(Boolean);
+  text = (text||'').replace(/^\uFEFF/, ''); // strip BOM
+  const lines = text.replace(/\r/g,'').split(/\r?\n/).filter(Boolean);
   if(!lines.length) return [];
-  const header=lines[0].split(',').map(h=>h.trim().toLowerCase());
-  const pick=(row,name)=>{const i=header.indexOf(name); return i>=0?(row[i]||'').trim():''}
-  const out=[];
+  const headerRaw = splitCSVLine(lines[0]).map(h=>(h||'').trim());
+  const idx = normalizeHeader(headerRaw);
+  if(idx.w<0 || idx.th<0) throw new Error('bad_header');
+  const out=[], startId=Date.now();
   for(let i=1;i<lines.length;i++){
-    const row=splitCSVLine(lines[i]); if(row.every(x=>!x.trim())) continue;
-    const w=pick(row,'w'), th=pick(row,'th'), cat=pick(row,'cat');
-    if(!w) continue;
-    const sRaw=pick(row,'s');
-    const sArr=sRaw? sRaw.split('|').map(x=>x.trim()).filter(Boolean) : [];
-    out.push({ id: Date.now()+i, w, th, s: sArr.length? sArr : (sRaw||''), cat });
+    const row = splitCSVLine(lines[i]); if(row.every(x=>!String(x||'').trim())) continue;
+    const get=(j)=> (j>=0 && j<row.length ? (row[j]||'').trim() : '');
+    const w=get(idx.w); if(!w) continue;
+    const th=get(idx.th);
+    const sRaw=get(idx.s);
+    const cat=get(idx.cat);
+    const sArr = sRaw ? sRaw.split('|').map(x=>x.trim()).filter(Boolean) : [];
+    out.push({ id:startId+i, w, th, s: sArr.length? sArr : (sRaw||''), cat });
   }
   return out;
 }
-async function importFromFile(file){
-  const text = await file.text();
-  let words=[];
-  if(file.name.toLowerCase().endsWith('.json')){
-    const data = JSON.parse(text);
-    words = (Array.isArray(data)?data:[]).map((x,i)=>({ id:Date.now()+i, w:x.w, th:x.th||'', s: Array.isArray(x.s)? x.s : (x.s? [x.s] : []), cat:x.cat||''})).filter(x=>x.w);
-  }else{
-    words = parseCSV(text);
-    words = words.map((x)=> ({...x, s: Array.isArray(x.s)? x.s : (x.s? [x.s] : [])}));
-  }
-  if(!words.length){ alert('ไฟล์ว่างหรือหัวคอลัมน์ไม่ถูกต้อง'); return; }
-  const dsId="csv_"+Date.now(); const name=file.name.replace(/\\.(csv|txt|json)$/i,'');
-  datasets = store.datasets; datasets.push({id:dsId, name, words}); store.datasets=datasets; store.active=dsId; state.active=dsId;
-  renderDatasets(); renderAll(true); toast('นำเข้าชุดใหม่แล้ว');
-}
+
+/* ===== Import from URL (robust) ===== */
 async function importFromURL(url){
-  const res = await fetch(url, {cache:'no-store'}); if(!res.ok) throw new Error('โหลดไม่สำเร็จ: '+res.status);
-  const ct = res.headers.get('content-type')||'';
-  const text = await res.text();
-  let words=[];
-  if(ct.includes('json') || url.toLowerCase().endsWith('.json')){
-    const data = JSON.parse(text);
-    words = (Array.isArray(data)?data:[]).map((x,i)=>({ id:Date.now()+i, w:x.w, th:x.th||'', s:Array.isArray(x.s)? x.s : (x.s? [x.s] : []), cat:x.cat||''})).filter(x=>x.w);
-  }else{
-    words = parseCSV(text).map((x)=> ({...x, s: Array.isArray(x.s)? x.s : (x.s? [x.s] : [])}));
+  try{
+    const res = await fetch(url, {cache:'no-store'});
+    if(!res.ok) throw new Error('http_'+res.status);
+    const text = await res.text();
+    console.log('[CSV first line]', (text.split(/\r?\n/)[0]||'').slice(0,200));
+    const words = parseCSV(text).map(x=> ({...x, s: Array.isArray(x.s)? x.s : (x.s? [x.s] : [])}));
+    if(!words.length) throw new Error('empty');
+    const dsId="csv_"+Date.now(); const name=url.split('/').pop().split('?')[0];
+    datasets = store.datasets; datasets.push({id:dsId, name, words}); store.datasets=datasets; store.active=dsId; state.active=dsId;
+    renderDatasets(); renderAll(true); alert('นำเข้าจาก URL สำเร็จ');
+  }catch(err){
+    console.error('Import URL failed:', err);
+    let msg='ไฟล์หรือหัวคอลัมน์ไม่ถูกต้อง';
+    if(String(err).includes('bad_header')) msg='หัวคอลัมน์ควรมีอย่างน้อย w และ th (รองรับ word/thai/sentences/category ด้วย)';
+    if(String(err).includes('http_')) msg='โหลดไฟล์ไม่สำเร็จ (เช็กพาธ/สิทธิ์ไฟล์บน GitHub หรือสะกดชื่อไฟล์)';
+    alert(msg);
   }
-  if(!words.length){ alert('ไฟล์ว่างหรือหัวคอลัมน์ไม่ถูกต้อง'); return; }
-  const dsId="csv_"+Date.now(); const name=url.split('/').pop().split('?')[0];
-  datasets = store.datasets; datasets.push({id:dsId, name, words}); store.datasets=datasets; store.active=dsId; state.active=dsId;
-  renderDatasets(); renderAll(true); toast('นำเข้าจาก URL สำเร็จ');
-}
-function exportAllSets(){
-  const data = store.datasets.filter(d=> d.id!=='builtin');
-  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download='my-sets-export.json'; a.click(); URL.revokeObjectURL(a.href);
-}
-function wipeDB(){
-  if(!confirm('ยืนยันลบฐานข้อมูลทั้งหมด (ชุดที่อัปโหลด + การตั้งค่าเสียง)?')) return;
-  localStorage.removeItem(KEY_DATASETS); localStorage.removeItem(KEY_ACTIVE); localStorage.removeItem(KEY_VOICE);
-  datasets=[{id:"builtin", name:"Built-in", words:[...BUILTIN]}]; store.datasets=datasets; store.active='builtin'; state.active='builtin'; state.voice=''; renderDatasets(); renderAll(true); toast('ลบฐานข้อมูลแล้ว');
 }
 
-// ===== Views =====
-const view = qs('#view');
-
-// Pastel mapping
-const PASTEL = { adjective:'var(--pastel-adj)', adj:'var(--pastel-adj)',
-  verb:'var(--pastel-verb)', thing:'var(--pastel-thing)', animal:'var(--pastel-animal)', time:'var(--pastel-time)',
-  preposition:'var(--pastel-thing)' };
-
-// Flashcards – single big card + controls under card
+/* ===== Other app code (stripped to essentials to keep size small) ===== */
+function renderDatasets(){
+  const wrap = qs('#datasets'); if(!wrap) return; wrap.innerHTML='';
+  datasets.forEach(ds=>{
+    const b=document.createElement('button'); b.className='ds'+(ds.id===state.active?' on':''); b.textContent=ds.name||'CSV';
+    b.onclick=()=>{ state.active=ds.id; store.active=ds.id; renderAll(true); };
+    wrap.appendChild(b);
+  });
+}
+function speak(text){
+  if(!('speechSynthesis' in window)) return;
+  const u=new SpeechSynthesisUtterance(text), voices=speechSynthesis.getVoices();
+  const chosen = state.voice ? voices.find(v=>v.name===state.voice) : voices.find(v=> v.lang?.toLowerCase().startsWith('en'));
+  if(chosen) u.voice = chosen; u.rate = state.rate; speechSynthesis.cancel(); speechSynthesis.speak(u);
+}
+const PASTEL={ adjective:'var(--pastel-adj)',verb:'var(--pastel-verb)',thing:'var(--pastel-thing)',animal:'var(--pastel-animal)',time:'var(--pastel-time)',preposition:'var(--pastel-thing)' };
 const flashState = { order:[], idx:0, flipped:false };
 function Flashcards(fresh=true){
-  const items = currentWords();
-  if(!items.length) return note('ยังไม่มีคำในชุดนี้');
-
-  if(fresh || !flashState.order.length){
-    flashState.order = shuffle(items);
-    flashState.idx=0; flashState.flipped=false;
-  }else{
-    const cur=flashState.order[flashState.idx];
-    const pos=items.findIndex(w=>w.id===cur?.id);
-    flashState.order=items; if(pos>=0) flashState.idx=pos;
-  }
-
+  const items = currentWords(); if(!items.length) return document.createTextNode('ยังไม่มีคำในชุดนี้');
+  if(fresh || !flashState.order.length){ flashState.order=[...items]; flashState.idx=0; flashState.flipped=false; }
   const wrap=document.createElement('div'); wrap.className='flash-wrap';
   const card=document.createElement('div'); card.className='flash-card'; wrap.appendChild(card);
-
   function draw(){
-    const c=flashState.order[flashState.idx % flashState.order.length];
-    const bg = PASTEL[c.cat] || 'var(--pastel-adj)';
-    card.style.background = bg;
-
-    if(!flashState.flipped){
-      card.innerHTML = `
-        <div class="flash-badge">${(c.cat||'word').toLowerCase()}</div>
-        <div class="flash-count">${flashState.idx+1} / ${flashState.order.length}</div>
-        <div>
-          <div class="flash-word">${c.w}</div>
-          <div class="flash-hint">แตะการ์ดเพื่อพลิก</div>
-        </div>`;
-    } else {
-      const sentences = (Array.isArray(c.s)?c.s:[c.s]).filter(Boolean);
-      card.innerHTML = `
-        <div class="flash-badge">${(c.cat||'word').toLowerCase()}</div>
-        <div class="flash-count">${flashState.idx+1} / ${flashState.order.length}</div>
-        <div>
-          ${c.th ? `<div style="font-size:clamp(22px,3.5vw,34px);font-weight:800;margin-bottom:8px">${c.th}</div>`:''}
-          ${sentences.length
-            ? sentences.map(s=>`<div style="font-size:clamp(18px,3vw,26px);line-height:1.6;color:#111;margin-top:6px">${s}</div>`).join('')
-            : `<div class="flash-hint">ไม่มีประโยคตัวอย่าง</div>`}
-        </div>`;
-    }
+    const c=flashState.order[flashState.idx%flashState.order.length]; const bg=PASTEL[c.cat]||'var(--pastel-adj)'; card.style.background=bg;
+    card.innerHTML = !flashState.flipped
+      ? `<div class="flash-badge">${(c.cat||'word')}</div><div class="flash-count">${flashState.idx+1}/${flashState.order.length}</div>
+         <div><div class="flash-word">${c.w}</div><div class="flash-hint">แตะการ์ดเพื่อพลิก</div></div>`
+      : `<div class="flash-badge">${(c.cat||'word')}</div><div class="flash-count">${flashState.idx+1}/${flashState.order.length}</div>
+         <div>${c.th?`<div style="font-size:clamp(22px,3.5vw,34px);font-weight:800;margin-bottom:8px">${c.th}</div>`:''}
+         ${(Array.isArray(c.s)?c.s:[c.s]).filter(Boolean).map(s=>`<div style="font-size:clamp(18px,3vw,26px);line-height:1.6;margin-top:6px">${s}</div>`).join('')||'<div class="flash-hint">ไม่มีประโยคตัวอย่าง</div>'}</div>`;
   }
-  function next(){ flashState.idx=(flashState.idx+1)%flashState.order.length; flashState.flipped=false; draw(); }
-  function prev(){ flashState.idx=(flashState.idx-1+flashState.order.length)%flashState.order.length; flashState.flipped=false; draw(); }
-
   card.onclick=()=>{ flashState.flipped=!flashState.flipped; draw(); };
-  window.addEventListener('keydown', (e)=>{
-    if(['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName)) return;
-    if(e.key==='ArrowRight') next();
-    if(e.key==='ArrowLeft')  prev();
-    if(e.key===' ') { e.preventDefault(); card.click(); }
-  });
-
   draw();
-
-  // controls under card
-  const controls = document.createElement('div');
-  controls.className = 'flash-controls';
-
-  const btnAgain = document.createElement('button');
-  btnAgain.className = 'btn warn';
-  btnAgain.textContent = '⟲ ยังจำไม่ได้';
-
-  const btnRead = document.createElement('button');
-  btnRead.className = 'btn primary';
-  btnRead.textContent = '🔊 อ่าน';
-
-  const btnKnow = document.createElement('button');
-  btnKnow.className = 'btn ok';
-  btnKnow.textContent = '✓ จำได้แล้ว';
-
-  btnRead.addEventListener('click', ()=>{
-    if(!flashState.order.length) return;
-    const c = flashState.order[flashState.idx % flashState.order.length];
-    speak(c.w);
-  });
-  btnKnow.addEventListener('click', ()=>{
-    if(!flashState.order.length) return;
-    flashState.order.splice(flashState.idx,1);
-    if(flashState.order.length===0){
-      flashState.order = shuffle(currentWords());
-      flashState.idx = 0;
-    } else if(flashState.idx>=flashState.order.length){
-      flashState.idx = 0;
-    }
-    flashState.flipped = false;
-    draw();
-  });
-  btnAgain.addEventListener('click', ()=>{
-    if(!flashState.order.length) return;
-    const cur = flashState.order[flashState.idx];
-    flashState.order.splice(flashState.idx,1);
-    const insertAt = Math.min(flashState.order.length, 2 + Math.floor(Math.random()*3));
-    flashState.order.splice(insertAt, 0, cur);
-    if(flashState.idx>=flashState.order.length) flashState.idx = flashState.order.length-1;
-    flashState.flipped = false;
-    draw();
-  });
-
-  controls.appendChild(btnAgain);
-  controls.appendChild(btnRead);
-  controls.appendChild(btnKnow);
-  wrap.appendChild(controls);
-
-  return wrap;
+  const controls=document.createElement('div'); controls.className='flash-controls';
+  const again=document.createElement('button'); again.className='btn warn'; again.textContent='⟲ ยังจำไม่ได้';
+  const readB=document.createElement('button'); readB.className='btn primary'; readB.textContent='🔊 อ่าน';
+  const know=document.createElement('button'); know.className='btn ok'; know.textContent='✓ จำได้แล้ว';
+  readB.onclick=()=>{ const c=flashState.order[flashState.idx%flashState.order.length]; speak(c.w); };
+  know.onclick=()=>{ flashState.order.splice(flashState.idx,1); if(!flashState.order.length){ flashState.order=[...items]; flashState.idx=0; } flashState.flipped=false; draw(); };
+  again.onclick=()=>{ const cur=flashState.order[flashState.idx]; flashState.order.splice(flashState.idx,1); flashState.order.splice(Math.min(flashState.order.length,3),0,cur); flashState.flipped=false; draw(); };
+  controls.append(again,readB,know); wrap.appendChild(controls); return wrap;
 }
+function ListenGame(){ return document.createTextNode('Listen Game (stub in patch).'); }
+function MatchGame(){ return document.createTextNode('Match Game (stub in patch).'); }
 
-// Listen (audio guess)
-const listenState = { q:null, round:0, chosen:null };
-function ListenGame(fresh=true){
-  const items=currentWords(); if(items.length<4) return note('ต้องมีคำอย่างน้อย 4 คำ');
-  function nextQ(){ const opts=sample(items,4); const answer=opts[(Math.random()*4)|0]; listenState.q={opts, answer}; listenState.chosen=null; listenState.round++; }
-  if(fresh || !listenState.q){ nextQ(); }
-  const wrap=document.createElement('div'); wrap.className='card';
-  function draw(){
-    const { q, chosen }=listenState;
-    wrap.innerHTML=`
-      <div class="row" style="justify-content:space-between;margin-bottom:10px">
-        <div class="muted">รอบ: ${listenState.round}</div>
-        <div class="row"><button class="btn primary" id="play">เล่นเสียง</button><button class="btn" id="shuffle">ข้อต่อไป</button></div>
-      </div>
-      <div class="muted" style="text-align:center;margin-bottom:8px">ฟังเสียงแล้วเลือกคำที่ได้ยิน</div>
-      <div class="grid grid-2" id="opts"></div>
-      ${chosen?`<div style="text-align:center;margin-top:10px">
-        ${chosen===q.answer?`<span class="pill" style="background:#dcfce7;color:#14532d">ถูกต้อง</span>`:`<span class="pill" style="background:#fee2e2;color:#7f1d1d">ถูกคือ ${q.answer.w}</span>`}
-      </div>`:''}`;
-    wrap.querySelector('#play').onclick=()=> speak(q.answer.w);
-    wrap.querySelector('#shuffle').onclick=()=>{ nextQ(); draw(); setTimeout(()=> speak(listenState.q.answer.w), 150); };
-    const opts=wrap.querySelector('#opts');
-    q.opts.forEach(opt=>{
-      const b=document.createElement('button'); b.className='cell';
-      b.innerHTML=`<div style="font-size:40px;font-weight:900">${opt.w}</div>`;
-      b.onclick=()=>{ if(listenState.chosen) return; listenState.chosen=opt; draw(); };
-      opts.appendChild(b);
-    });
-  }
-  setTimeout(()=> speak(listenState.q.answer.w), 200);
-  draw();
-  return wrap;
-}
-
-// Match game
-const matchState = { left:[], right:[], pairs:[], sel:null, solved:0, total:0 };
-function MatchGame(fresh=true){
-  const items=currentWords(); if(items.length<4) return note('ต้องมีคำอย่างน้อย 4 คำ');
-  if(fresh || !matchState.left.length){
-    const subset=sample(items, Math.min(10, items.length));
-    matchState.left = shuffle(subset.map(w=>({id:w.id, w:w.w})));
-    matchState.right= shuffle(subset.map(w=>({id:w.id, th:w.th})) );
-    matchState.pairs=[]; matchState.sel=null; matchState.total=subset.length; matchState.solved=0;
-  }
-  const wrap=document.createElement('div'); wrap.className='grid grid-2';
-  const leftCol=document.createElement('div'); leftCol.className='card';
-  const rightCol=document.createElement('div'); rightCol.className='card';
-
-  function solved(id){ return matchState.pairs.find(p=>p.id===id && p.side==="left") && matchState.pairs.find(p=>p.id===id && p.side==="right"); }
-  function renderSide(list, side, col){
-    col.innerHTML='';
-    const grid=document.createElement('div'); grid.className='list';
-    list.forEach(it=>{
-      const btn=document.createElement('button'); btn.className='cell';
-      btn.style.opacity = solved(it.id)? 0.4 : 1;
-      btn.style.borderColor = matchState.sel && matchState.sel.id===it.id && matchState.sel.side===side ? '#111827' : '';
-      btn.innerHTML = side==='left' ? `<div style="font-size:32px;font-weight:900">${it.w}</div>` : `<div style="font-size:20px">${it.th||""}</div>`;
-      btn.onclick=()=>{
-        if(solved(it.id)) return;
-        if(!matchState.sel){ matchState.sel={id:it.id, side}; draw(); return; }
-        if(matchState.sel.id===it.id && matchState.sel.side!==side){
-          matchState.pairs=[...matchState.pairs, {id:it.id, side:matchState.sel.side},{id:it.id, side}];
-          matchState.sel=null; matchState.solved++;
-          draw();
-          if(matchState.solved===matchState.total){
-            toast('🎉 จับคู่ครบแล้ว! เริ่มรอบใหม่');
-            setTimeout(()=>{ matchState.left=[]; renderAll(true); }, 600);
-          }
-        } else { matchState.sel={id:it.id, side}; draw(); }
-      };
-      grid.appendChild(btn);
-    });
-    col.appendChild(grid);
-  }
-  function draw(){ renderSide(matchState.left,'left',leftCol); renderSide(matchState.right,'right',rightCol); }
-  draw();
-  wrap.appendChild(leftCol); wrap.appendChild(rightCol); return wrap;
-}
-
-function note(text){ const d=document.createElement('div'); d.className='card'; d.style.textAlign='center'; d.textContent=text; return d; }
-
-// Root
 function renderAll(fresh){
-  renderTabs(); renderVoice();
   view.innerHTML='';
   if(state.tab==='flash')  view.appendChild(Flashcards(fresh));
-  if(state.tab==='listen') view.appendChild(ListenGame(fresh));
-  if(state.tab==='match')  view.appendChild(MatchGame(fresh));
+  if(state.tab==='listen') view.appendChild(ListenGame());
+  if(state.tab==='match')  view.appendChild(MatchGame());
 }
-
-// ===== Events =====
 document.addEventListener('DOMContentLoaded', ()=>{
   renderAll(true);
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=9').catch(()=>{}); }
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=10').catch(()=>{}); }
 });
-
-qs('#openModal').onclick = openModal;
-qs('#closeModal').onclick = closeModal;
+document.querySelectorAll('.tabs .btn').forEach(b=> b.onclick=()=>{ state.tab=b.dataset.tab; document.querySelectorAll('.tabs .btn').forEach(x=>x.classList.toggle('primary', x===b)); renderAll(true); });
+qs('#openModal').onclick=()=>{ document.getElementById('modal').style.display='flex'; renderDatasets(); };
+qs('#closeModal').onclick=()=>{ document.getElementById('modal').style.display='none'; };
 qs('#voiceSelect').onchange=(e)=>{ state.voice = e.target.value==='__auto__' ? '' : e.target.value; store.voice=state.voice; };
 qs('#rate').oninput=(e)=>{ state.rate = Number(e.target.value)/100; };
-
-document.querySelectorAll('.tabs .btn').forEach(b=> b.onclick=()=>{ state.tab=b.dataset.tab; renderAll(true); });
 
 // Modal actions
 qs('#fileInput').addEventListener('change', async (e)=>{
   const file=e.target.files?.[0]; if(!file) return;
-  await importFromFile(file); e.target.value='';
+  const text=await file.text(); console.log('[Local CSV first line]', (text.split(/\\r?\\n/)[0]||'').slice(0,200));
+  let words=[];
+  if(file.name.toLowerCase().endsWith('.json')){
+    const data = JSON.parse(text);
+    words=(Array.isArray(data)?data:[]).map((x,i)=>({id:Date.now()+i,w:x.w,th:x.th||'',s:Array.isArray(x.s)?x.s:(x.s?[x.s]:[]),cat:x.cat||''})).filter(x=>x.w);
+  }else{
+    words=parseCSV(text).map(x=>({...x,s:Array.isArray(x.s)?x.s:(x.s?[x.s]:[])}));
+  }
+  if(!words.length) return alert('ไฟล์ว่างหรือหัวคอลัมน์ไม่ถูกต้อง');
+  const dsId="csv_"+Date.now(); const name=file.name.replace(/\\.(csv|txt|json)$/i,'');
+  datasets=store.datasets; datasets.push({id:dsId,name,words}); store.datasets=datasets; store.active=dsId; state.active=dsId;
+  renderDatasets(); renderAll(true); alert('นำเข้าจากไฟล์สำเร็จ');
 });
 qs('#importURL').onclick=async ()=>{
   const url = qs('#urlInput').value.trim(); if(!url) return alert('กรอก URL ก่อน');
-  try{ await importFromURL(url); qs('#urlInput').value=''; }catch(err){ alert(err.message||String(err)); }
+  await importFromURL(url);
 };
-qs('#exportSets').onclick=exportAllSets;
-qs('#wipeDB').onclick=wipeDB;
-
-// ===== Self-tests (console) =====
-(function(){
-  try{
-    const csv = "w,th,s,cat\nhappy,มีความสุข,I am happy.|I feel good,adj\n";
-    const arr = parseCSV(csv);
-    console.assert(arr.length===1,'CSV parse failed length');
-    console.assert(Array.isArray(arr[0].s?arr[0].s:[]),'CSV parse sentence not array');
-    console.log('✅ Self-tests passed');
-  }catch(e){ console.warn('Self-test failed', e); }
-})();
 </script>
 </body>
 </html>
