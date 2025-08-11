@@ -1,387 +1,162 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>English Trainer • Flashcards + Match + Audio</title>
-  <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#111827" />
-  <style>
-    :root{ --bg:#f7f8fb;--ink:#0f1629;--muted:#6b7280;--card:#fff;--border:#e5e7eb;
-      --accent:#111827;--shadow:0 10px 20px rgba(2,6,23,.06),0 2px 6px rgba(2,6,23,.05);
-      --ok:#10b981;--warn:#f59e0b;--bad:#ef4444;
-      --pastel-adj:#FFF6BF;--pastel-verb:#DDEBFF;--pastel-thing:#EAF7E8;--pastel-animal:#FDE4EF;--pastel-time:#FFE8D2; }
-    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans Thai","Noto Sans",sans-serif}
-    .container{max-width:1100px;margin:0 auto;padding:16px}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:var(--shadow)}
-    .btn{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--border);background:#fff;padding:10px 14px;border-radius:12px;cursor:pointer;font-weight:700;font-size:15px}
-    .btn.primary{background:#111827;color:#fff;border-color:#111827}
-    .btn.ok{background:#10b981;color:#fff;border-color:#0ea371}
-    .btn.warn{background:#f59e0b;color:#fff;border-color:#d97706}
-    .muted{color:var(--muted);font-size:13px}
-    .title{font-size:22px;font-weight:900;margin:0}
-    .tabs .btn{min-width:150px;justify-content:center}
-    .grid{display:grid;gap:14px} .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .select,input[type=text]{padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:#fff;font-size:15px}
-    .slider{width:240px}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Flashcards – GoodNotes Style + English TTS</title>
 
-    .ds{border:1px solid var(--border);border-radius:999px;padding:8px 12px;background:#fff;cursor:pointer}
-    .ds.on{background:#111827;color:#fff;border-color:#111827}
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111111">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Flashcards">
 
-    /* Flashcard */
-    .flash-wrap{display:flex;flex-direction:column;align-items:center}
-    .flash-card{width:min(900px,92vw);aspect-ratio:16/10;border-radius:26px;box-shadow:var(--shadow);border:1px solid var(--border);
-      position:relative;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;background:#fff}
-    .flash-word{font-size:clamp(44px,9vw,84px);font-weight:900;letter-spacing:.4px}
-    .flash-hint{font-size:14px;color:var(--muted);margin-top:8px}
-    .flash-badge{position:absolute;top:14px;left:14px;background:rgba(0,0,0,.65);color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700}
-    .flash-count{position:absolute;top:14px;right:14px;background:#111;color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700}
-    .flash-controls{display:flex;justify-content:center;gap:10px;margin-top:12px}
-    .flash-controls .btn{min-width:120px}
-
-    /* Match */
-    .match-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .match-col{padding:12px;border-radius:14px;background:#f8fafc;border:1px solid var(--border);min-height:120px}
-    .match-item{padding:12px;border-radius:12px;background:#fff;border:1px solid var(--border);cursor:pointer;text-align:center;font-weight:700}
-    .match-item.sel{outline:3px solid #2563eb}
-    .match-item.done{opacity:.45;pointer-events:none}
-
-    /* Listen */
-    .listen-opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-    .listen-btn{padding:14px;border:1px solid var(--border);border-radius:12px;background:#fff;text-align:center;font-weight:700;cursor:pointer}
-  </style>
+<style>
+:root{--bg:#f6f7fb;--ink:#111;--muted:#6b7280;--white:#fff;--adj:#FFF9C4;--verb:#BBDEFB;--thing:#C8E6C9;--animal:#F8BBD0;--time:#FFE0B2;--card:#fff;--shadow:0 10px 25px rgba(0,0,0,.08)}
+*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans Thai","Noto Sans",sans-serif;background:var(--bg);color:var(--ink)}
+header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,#fff,rgba(255,255,255,.92));backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid #eee}
+.wrap{max-width:1024px;margin:0 auto;padding:12px 16px} header h1{font-size:clamp(18px,2.5vw,22px);margin:0 0 8px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+button{appearance:none;border:0;background:#111;color:#fff;padding:12px 16px;border-radius:12px;cursor:pointer;box-shadow:var(--shadow);font-weight:800}
+button:disabled{opacity:.5;cursor:not-allowed} .secondary{background:#fff;color:#111;border:1px solid #e5e7eb}
+#btnSpeak{font-size:22px;padding:14px 18px;border-radius:16px}
+.mini{display:flex;gap:8px;align-items:center;background:#fff;padding:8px 10px;border-radius:12px;box-shadow:var(--shadow)}
+.mini label{font-size:12px;color:#6b7280} #rate{width:140px}
+.setBadge{display:inline-flex;align-items:center;gap:6px;background:#111;color:#fff;border-radius:999px;padding:6px 10px;font-size:12px}
+select{padding:10px 12px;border-radius:10px;border:1px solid #e5e7eb;background:#fff;box-shadow:var(--shadow);font-weight:700}
+.app{max-width:1024px;margin:0 auto;padding:16px} .stage{display:grid;grid-template-columns:1fr;justify-items:center}
+.card{width:min(820px,94vw);aspect-ratio:4/3;border-radius:22px;box-shadow:var(--shadow);background:var(--card);position:relative;perspective:1000px;margin-top:12px}
+.inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s ease}
+.card.flipped .inner{transform:rotateY(180deg)} .face{position:absolute;inset:0;border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;backface-visibility:hidden}
+.front{gap:8px} .word{font-size:clamp(38px,8.5vw,80px);font-weight:900;letter-spacing:.5px} .hint{font-size:14px;color:#6b7280;margin-top:6px}
+.back{transform:rotateY(180deg);gap:12px;background:#f3f4f6} .thai{font-size:clamp(22px,3.5vw,34px);font-weight:800} .sentence{font-size:clamp(16px,2.5vw,22px);color:#1f2937}
+.badge{position:absolute;top:14px;left:14px;background:rgba(0,0,0,.6);color:#fff;padding:6px 10px;border-radius:999px;font-size:12px}
+.count{position:absolute;top:14px;right:14px;background:#111;color:#fff;padding:6px 10px;border-radius:999px;font-size:12px}
+.modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.35)} .modal.open{display:grid}
+.sheet{width:min(560px,92vw);background:#fff;border-radius:16px;box-shadow:var(--shadow);padding:16px}
+.sheet h3{margin:0 0 10px} .sheet .row{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.pill{padding:10px 12px;border-radius:12px;background:#f3f4f6;cursor:pointer;font-weight:700} .pill:hover{background:#e5e7eb}
+.muted{color:#6b7280;font-size:13px} .file{display:inline-block;padding:10px 12px;border-radius:12px;border:1px dashed #d1d5db;cursor:pointer}
+</style>
 </head>
 <body>
-<div class="container">
-  <header class="row" style="justify-content:space-between">
-    <div>
-      <h1 class="title">Flashcards – GoodNotes Style + อ่านคำศัพท์</h1>
-      <div class="muted">Flashcards • จับคู่คำ • ทายคำจากเสียง • นำเข้าจากไฟล์/URL • ส่งออก/ลบฐานข้อมูล</div>
-    </div>
-    <div class="row">
-      <button class="btn" id="openModal">เลือกชุด</button>
-    </div>
-  </header>
-
-  <section class="card" style="margin-top:12px">
-    <div class="row" style="justify-content:space-between;align-items:center">
-      <div class="row" style="align-items:center">
-        <div class="muted">โหมด:</div>
-        <nav class="row tabs">
-          <button class="btn primary" data-tab="flash">Flashcards</button>
-          <button class="btn" data-tab="match">จับคู่คำ</button>
-          <button class="btn" data-tab="listen">ทายคำจากเสียง</button>
-        </nav>
+<header>
+  <div class="wrap">
+    <h1>Flashcards – GoodNotes Style + อ่านคำศัพท์</h1>
+    <div class="toolbar">
+      <span id="setBadge" class="setBadge">ชุด <strong id="setNum">1</strong></span>
+      <button id="btnKnow">✓ จำได้แล้ว</button>
+      <button id="btnAgain" class="secondary">⟲ ยังจำไม่ได้</button>
+      <button id="btnSpeak">🔊 อ่าน</button>
+      <button id="btnSets" class="secondary">📚 เลือกชุด</button>
+      <div class="mini">
+        <button id="btnGender" class="secondary" title="สลับเสียง">เสียง: หญิง</button>
+        <label for="rate">ความเร็ว</label>
+        <input id="rate" type="range" min="0.7" max="1.1" step="0.05" value="0.9" />
+        <span id="rateLbl" style="font-size:12px;color:#6b7280">0.90x</span>
+        <select id="voiceSelect" title="เลือกเสียงพูด (iPad/iPhone ให้เลือก Samantha/Karen Enhanced)">
+          <option value="">เลือกเสียง (อัตโนมัติ)</option>
+        </select>
       </div>
-      <div class="row">
-        <div class="row"><span class="muted">เสียง: </span>
-          <select class="select" id="voiceSelect"><option value="__auto__">อัตโนมัติ (แนะนำ)</option></select>
+    </div>
+  </div>
+</header>
+
+<main class="app">
+  <section class="stage">
+    <div class="card" id="card">
+      <div class="inner">
+        <div class="face front" id="front">
+          <span class="badge" id="catBadge">adjective</span>
+          <span class="count" id="count">1 / 30</span>
+          <div class="word" id="word">happy</div>
+          <div class="hint">แตะการ์ดเพื่อพลิก</div>
         </div>
-        <div class="row">
-          <div class="muted">ความเร็ว</div>
-          <input class="slider" type="range" min="60" max="130" value="90" id="rate" />
+        <div class="face back" id="back">
+          <span class="badge" id="catBadgeBack">adjective</span>
+          <span class="count" id="countBack">1 / 30</span>
+          <div class="thai" id="thai">มีความสุข</div>
+          <div class="sentence" id="sentence">I am happy today.</div>
         </div>
       </div>
     </div>
   </section>
+</main>
 
-  <div id="view" class="card" style="margin-top:12px;min-height:340px">กำลังเริ่มระบบ…</div>
-
-  <!-- Modal -->
-  <div id="modal" style="position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:center;justify-content:center;z-index:9998">
-    <div class="card" style="width:min(680px,96vw)">
-      <div class="row" style="justify-content:space-between;align-items:center">
-        <div class="title">เลือกชุด</div>
-        <button class="btn" id="closeModal">ปิด</button>
-      </div>
-      <div class="row" style="margin-top:8px">
-        <label class="btn">อัปโหลด CSV/JSON
-          <input type="file" id="fileInput" accept=".csv,.json,text/csv,application/json" style="display:none">
-        </label>
-        <button class="btn" id="exportSets">⬇️ ส่งออกชุดที่อัปโหลด</button>
-        <button class="btn" id="wipeDB">🗑️ ลบฐานข้อมูล</button>
-      </div>
-      <div style="margin-top:10px" class="card">
-        <div style="font-weight:800;margin-bottom:8px">นำเข้าจาก URL</div>
-        <div class="row">
-          <input id="urlInput" type="text" placeholder="./data/week1_set1.csv" style="flex:1">
-          <button class="btn primary" id="importURL">นำเข้าจาก URL</button>
-        </div>
-        <div class="muted" style="margin-top:6px">
-          รองรับ CSV (คอลัมน์: <code>w,th,s,cat</code> หรือหัวใกล้เคียงเช่น <code>word,thai,sentences,category</code>) และ JSON (array ของ {w,th,s,cat}).
-        </div>
-      </div>
-      <div style="margin-top:12px">
-        <div class="muted" style="margin-bottom:6px">ชุดคำศัพท์ที่ใช้งานอยู่</div>
-        <div id="datasets" class="row" style="gap:8px;flex-wrap:wrap"></div>
-      </div>
-    </div>
+<div id="modal" class="modal" aria-hidden="true">
+  <div class="sheet" role="dialog" aria-modal="true">
+    <h3>เลือกชุดคำศัพท์</h3>
+    <div class="row" id="setRow"></div>
+    <p class="muted">นำเข้าไฟล์คำศัพท์ (ทางเลือก): JSON หรือ CSV (คอลัมน์: w, th, s, cat)</p>
+    <label class="file">
+      <input type="file" id="fileInput" accept=".json,.csv" hidden />📥 เลือกไฟล์คำศัพท์...
+    </label>
+    <div style="margin-top:10px"><button id="closeModal" class="secondary">ปิด</button></div>
   </div>
 </div>
 
 <script>
-const KEY_DATASETS="en_trainer_datasets_v1", KEY_ACTIVE="en_trainer_active_v1", KEY_VOICE="en_trainer_voice_v1";
-const qs=(s)=>document.querySelector(s), view=qs('#view');
-const store={
-  get datasets(){ try{return JSON.parse(localStorage.getItem(KEY_DATASETS)||"[]")}catch{return[]} },
-  set datasets(v){ localStorage.setItem(KEY_DATASETS, JSON.stringify(v)); },
-  get active(){ return localStorage.getItem(KEY_ACTIVE)||"builtin"; },
-  set active(v){ localStorage.setItem(KEY_ACTIVE, v); },
-  get voice(){ return localStorage.getItem(KEY_VOICE)||""; },
-  set voice(v){ localStorage.setItem(KEY_VOICE, v); },
+const SETS={
+  1:[{w:'happy',th:'มีความสุข',s:'I am happy today.',cat:'adj'},{w:'angry',th:'โกรธ',s:'She is angry.',cat:'adj'},{w:'hungry',th:'หิว',s:'I am hungry.',cat:'adj'},{w:'thirsty',th:'กระหายน้ำ',s:'He is thirsty.',cat:'adj'},{w:'clean',th:'สะอาด',s:'The room is clean.',cat:'adj'},{w:'dirty',th:'สกปรก',s:'The floor is dirty.',cat:'adj'},{w:'listen',th:'ฟัง',s:'Listen to the music.',cat:'verb'},{w:'speak',th:'พูด',s:'I speak English.',cat:'verb'},{w:'draw',th:'วาด',s:'Draw a picture.',cat:'verb'},{w:'swim',th:'ว่ายน้ำ',s:'I can swim.',cat:'verb'},{w:'run',th:'วิ่ง',s:'Run fast!',cat:'verb'},{w:'jump',th:'กระโดด',s:'Jump high!',cat:'verb'},{w:'window',th:'หน้าต่าง',s:'Open the window.',cat:'thing'},{w:'door',th:'ประตู',s:'Close the door.',cat:'thing'},{w:'floor',th:'พื้น',s:'Clean the floor.',cat:'thing'},{w:'roof',th:'หลังคา',s:'The roof is red.',cat:'thing'},{w:'street',th:'ถนน',s:'The street is busy.',cat:'thing'},{w:'market',th:'ตลาด',s:'Go to the market.',cat:'thing'},{w:'dog',th:'สุนัข',s:'The dog is big.',cat:'animal'},{w:'cat',th:'แมว',s:'The cat is cute.',cat:'animal'},{w:'bird',th:'นก',s:'A bird can fly.',cat:'animal'},{w:'fish',th:'ปลา',s:'A fish can swim.',cat:'animal'},{w:'elephant',th:'ช้าง',s:'The elephant is big.',cat:'animal'},{w:'tiger',th:'เสือ',s:'The tiger is strong.',cat:'animal'},{w:'morning',th:'ตอนเช้า',s:'Good morning!',cat:'time'},{w:'afternoon',th:'ตอนบ่าย',s:'Good afternoon.',cat:'time'},{w:'evening',th:'ตอนเย็น',s:'Good evening.',cat:'time'},{w:'night',th:'กลางคืน',s:'Good night.',cat:'time'},{w:'yesterday',th:'เมื่อวาน',s:'I saw him yesterday.',cat:'time'},{w:'tomorrow',th:'พรุ่งนี้',s:'See you tomorrow.',cat:'time'}],
+  2:[{w:'before',th:'ก่อน',s:'Wash your hands before lunch.',cat:'time'},{w:'after',th:'หลังจาก',s:'We play after school.',cat:'time'},{w:'between',th:'ระหว่าง',s:'The ball is between the shoes.',cat:'thing'},{w:'under',th:'ใต้',s:'The cat is under the table.',cat:'thing'},{w:'over',th:'เหนือ/ข้าม',s:'The plane flies over the city.',cat:'thing'},{w:'inside',th:'ข้างใน',s:'The toy is inside the box.',cat:'thing'},{w:'outside',th:'ข้างนอก',s:'We eat outside today.',cat:'thing'},{w:'across',th:'ข้าม',s:'Walk across the street.',cat:'thing'},{w:'around',th:'รอบๆ',s:'Run around the park.',cat:'thing'},{w:'through',th:'ผ่าน',s:'Go through the door.',cat:'thing'},{w:'near',th:'ใกล้',s:'The school is near my house.',cat:'thing'},{w:'next to',th:'ถัดจาก/ข้างๆ',s:'Sit next to me, please.',cat:'thing'},{w:'in front of',th:'ข้างหน้า',s:'Stand in front of the class.',cat:'thing'},{w:'behind',th:'ข้างหลัง',s:'The ball is behind the chair.',cat:'thing'},{w:'along',th:'ไปตาม',s:'Walk along the river.',cat:'thing'},{w:'borrow',th:'ยืม',s:'Can I borrow your pencil?',cat:'verb'},{w:'return',th:'คืน',s:'Please return the book.',cat:'verb'},{w:'carry',th:'ถือ/แบก',s:'Carry the bag carefully.',cat:'verb'},{w:'choose',th:'เลือก',s:'Choose one picture.',cat:'verb'},{w:'answer',th:'ตอบ',s:'Answer the question.',cat:'verb'},{w:'explain',th:'อธิบาย',s:'Please explain again.',cat:'verb'},{w:'invite',th:'เชิญ/ชวน',s:'I invite my friend.',cat:'verb'},{w:'learn',th:'เรียนรู้',s:'We learn English every day.',cat:'verb'},{w:'build',th:'สร้าง',s:'They build a small house.',cat:'verb'},{w:'repair',th:'ซ่อม',s:'Dad will repair the bike.',cat:'verb'},{w:'collect',th:'เก็บ/สะสม',s:'Collect the stickers.',cat:'verb'},{w:'decide',th:'ตัดสินใจ',s:'Decide carefully.',cat:'verb'},{w:'practice',th:'ฝึกฝน',s:'Practice speaking English.',cat:'verb'},{w:'whisper',th:'กระซิบ',s:'Please whisper in the library.',cat:'verb'}],
+  3:[{w:'because',th:'เพราะว่า',s:'I stay home because it rains.',cat:'thing'},{w:'but',th:'แต่',s:'It is small but heavy.',cat:'thing'},{w:'or',th:'หรือ',s:'Tea or milk?',cat:'thing'},{w:'and',th:'และ',s:'Bread and butter.',cat:'thing'},{w:'so',th:'ดังนั้น',s:'I was late, so I ran.',cat:'thing'},{w:'while',th:'ในขณะที่',s:'Read while you wait.',cat:'thing'},{w:'bigger',th:'ใหญ่กว่า',s:'An elephant is bigger than a dog.',cat:'adj'},{w:'smaller',th:'เล็กกว่า',s:'This pencil is smaller.',cat:'adj'},{w:'faster',th:'เร็วกว่า',s:'He runs faster than me.',cat:'adj'},{w:'slower',th:'ช้ากว่า',s:'The turtle is slower.',cat:'adj'},{w:'longer',th:'ยาวกว่า',s:'This road is longer.',cat:'adj'},{w:'shorter',th:'สั้นกว่า',s:'My hair is shorter now.',cat:'adj'},{w:'kinder',th:'ใจดีกว่า',s:'Be kinder to others.',cat:'adj'},{w:'taller',th:'สูงกว่า',s:'She is taller than me.',cat:'adj'},{w:'drawing',th:'การวาดรูป',s:'I like drawing.',cat:'verb'},{w:'swimming',th:'การว่ายน้ำ',s:'Swimming is fun.',cat:'verb'},{w:'reading',th:'การอ่านหนังสือ',s:'Reading helps me learn.',cat:'verb'},{w:'cooking',th:'การทำอาหาร',s:'Mom enjoys cooking.',cat:'verb'},{w:'planting',th:'การปลูกต้นไม้',s:'We are planting trees.',cat:'verb'},{w:'cleaning',th:'การทำความสะอาด',s:'Cleaning is important.',cat:'verb'},{w:'painting',th:'การระบายสี',s:'Painting is relaxing.',cat:'verb'},{w:'singing',th:'การร้องเพลง',s:'Singing makes me happy.',cat:'verb'},{w:'dancing',th:'การเต้น',s:'Dancing is great exercise.',cat:'verb'},{w:'camping',th:'การตั้งแคมป์',s:'We go camping this weekend.',cat:'verb'},{w:'always',th:'เสมอ',s:'I always brush my teeth.',cat:'time'},{w:'usually',th:'โดยปกติ',s:'She usually walks to school.',cat:'time'},{w:'often',th:'บ่อยครั้ง',s:'They often play chess.',cat:'time'},{w:'sometimes',th:'บางครั้ง',s:'We sometimes eat out.',cat:'time'},{w:'rarely',th:'นานๆ ครั้ง',s:'He rarely watches TV.',cat:'time'},{w:'never',th:'ไม่เคย',s:'I never skip homework.',cat:'time'},{w:'early',th:'เช้า/เร็ว',s:'Come early to class.',cat:'time'},{w:'late',th:'สาย',s:'Do not be late.',cat:'time'}]
 };
+let currentSetKey=1,CARDS=SETS[currentSetKey],order=[],idx=0,flipped=false,preferFemale=true,defaultVoice=null,selectedVoiceURI=localStorage.getItem('voiceURI')||'';
+const cardEl=document.getElementById('card'),wordEl=document.getElementById('word'),thaiEl=document.getElementById('thai'),sentEl=document.getElementById('sentence'),catBadge=document.getElementById('catBadge'),catBadgeBack=document.getElementById('catBadgeBack'),count=document.getElementById('count'),countBack=document.getElementById('countBack'),setNum=document.getElementById('setNum');
+const btnKnow=document.getElementById('btnKnow'),btnAgain=document.getElementById('btnAgain'),btnSpeak=document.getElementById('btnSpeak'),btnSets=document.getElementById('btnSets'),btnGender=document.getElementById('btnGender'),rate=document.getElementById('rate'),rateLbl=document.getElementById('rateLbl'),voiceSelect=document.getElementById('voiceSelect');
+const modal=document.getElementById('modal'),setRow=document.getElementById('setRow'),fileInput=document.getElementById('fileInput'),closeModal=document.getElementById('closeModal');
+const CAT_LABEL={adj:'adjective',verb:'verb',thing:'thing',animal:'animal',time:'time'},CAT_COLOR={adj:'var(--adj)',verb:'var(--verb)',thing:'var(--thing)',animal:'var(--animal)',time:'var(--time)'};
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function startSet(key){currentSetKey=key;CARDS=SETS[currentSetKey];order=shuffle([...CARDS.keys()]);idx=0;flipped=false;cardEl.classList.remove('flipped');setNum.textContent=String(currentSetKey);paint()}
+function paint(){const item=CARDS[order[idx]];wordEl.textContent=item.w;thaiEl.textContent=item.th;sentEl.textContent=item.s;catBadge.textContent=CAT_LABEL[item.cat]||'';catBadgeBack.textContent=CAT_LABEL[item.cat]||'';count.textContent=`${idx+1} / ${order.length}`;countBack.textContent=`${idx+1} / ${order.length}`;document.querySelector('.front').style.background=CAT_COLOR[item.cat]||'#fff'}
+function nextCard(){idx++;if(idx>=order.length){order=shuffle([...CARDS.keys()]);idx=0}flipped=false;cardEl.classList.remove('flipped');paint()}
+cardEl.addEventListener('click',()=>{flipped=!flipped;cardEl.classList.toggle('flipped',flipped)});
+btnKnow.addEventListener('click',()=>{order.splice(idx,1);if(order.length===0){order=shuffle([...CARDS.keys()]);idx=0}else if(idx>=order.length){idx=0}flipped=false;cardEl.classList.remove('flipped');paint()});
+btnAgain.addEventListener('click',()=>{const cur=order[idx];order.splice(idx,1);const insertAt=Math.min(order.length,2+Math.floor(Math.random()*3));order.splice(insertAt,0,cur);nextCard()});
 
-// Seed words
-const BUILTIN=[
-  {id:1,w:"hello",th:"สวัสดี",s:["Hello! How are you?","We say hello to friends."],cat:"daily"},
-  {id:2,w:"water",th:"น้ำ",s:["Please drink water.","Water is clear."],cat:"daily"}
-];
+// Voice utilities
+function scoreVoice(v){let s=0;if(/en/i.test(v.lang))s+=10;if(/US|GB|AU/i.test(v.lang))s+=5;const female=/Samantha|Aria|Jenny|Victoria|Zira|Karen|Serena|Olivia|Allison|Amy|Emma|Joanna|Google US English|Female/i;const male=/Daniel|Alex|Matthew|Brian|Justin|Joey|Male/i;if(preferFemale&&female.test(v.name))s+=8;if(!preferFemale&&male.test(v.name))s+=6;return s}
+function pickDefaultVoice(){if(!('speechSynthesis'in window))return null;const all=speechSynthesis.getVoices();const en=all.filter(v=>/en/i.test(v.lang));en.sort((a,b)=>scoreVoice(b)-scoreVoice(a));return en[0]||null}
+function populateVoiceList(){ if(!('speechSynthesis' in window)) return; const all=speechSynthesis.getVoices(); const en=all.filter(v=>/en/i.test(v.lang)); en.sort((a,b)=>a.name.localeCompare(b.name)); voiceSelect.innerHTML='<option value=\"\">เลือกเสียง (อัตโนมัติ)</option>'; en.forEach(v=>{ const opt=document.createElement('option'); opt.value=v.voiceURI||v.name; opt.textContent=`${v.name} – ${v.lang}`; if(selectedVoiceURI && opt.value===selectedVoiceURI) opt.selected=true; voiceSelect.appendChild(opt); }); }
+function getSelectedVoice(){ if(!('speechSynthesis'in window))return null; const all=speechSynthesis.getVoices(); return all.find(v=> (v.voiceURI||v.name)===selectedVoiceURI ) || null; }
 
-let datasets = store.datasets;
-if(!datasets.find(d=>d.id==="builtin")){
-  datasets=[{id:"builtin",name:"Built-in",words:[...BUILTIN]}];
-  store.datasets=datasets;
-}
-let state = { tab:"flash", rate:0.9, voice: store.voice, active: store.active };
+function refreshVoice(){ defaultVoice = pickDefaultVoice(); populateVoiceList(); }
+if('speechSynthesis' in window){ refreshVoice(); window.speechSynthesis.onvoiceschanged = refreshVoice; }
 
-function currentWords(){ const ds = datasets.find(d=>d.id===state.active) || datasets[0]; return ds.words||[]; }
+btnGender.addEventListener('click',()=>{preferFemale=!preferFemale;btnGender.textContent='เสียง: '+(preferFemale?'หญิง':'ชาย'); defaultVoice = pickDefaultVoice();});
 
-/* ===== CSV helpers ===== */
-function splitCSVLine(line){const out=[];let cur='',inQ=false;
-  for(let i=0;i<line.length;i++){const ch=line[i];
-    if(ch==='\"'){ if(inQ&&line[i+1]==='\"'){cur+='\"';i++;} else inQ=!inQ; }
-    else if(ch===','&&!inQ){out.push(cur);cur='';}
-    else cur+=ch;}
-  out.push(cur);return out;
-}
-function normalizeHeader(names){
-  const map={ w:['w','word','english','en'],
-              th:['th','thai','meaning','translate','แปล','ความหมาย'],
-              s:['s','sentences','sentence','examples','example','ex','ex1','ex2','ex3'],
-              cat:['cat','category','หมวด','หมวดหมู่'] };
-  const lower = names.map(n=>(n||'').trim().toLowerCase());
-  const pick=(keys)=> lower.findIndex(h=> keys.includes(h));
-  return { w:pick(map.w), th:pick(map.th), s:pick(map.s), cat:pick(map.cat) };
-}
-function parseCSV(text){
-  text = (text||'').replace(/^\uFEFF/, ''); // strip BOM
-  const lines = text.replace(/\r/g,'').split(/\r?\n/).filter(Boolean);
-  if(!lines.length) return [];
-  const headerRaw = splitCSVLine(lines[0]).map(h=>(h||'').trim());
-  const idx = normalizeHeader(headerRaw);
-  if(idx.w<0 || idx.th<0) throw new Error('bad_header');
-  const out=[], startId=Date.now();
-  for(let i=1;i<lines.length;i++){
-    const row = splitCSVLine(lines[i]); if(row.every(x=>!String(x||'').trim())) continue;
-    const get=(j)=> (j>=0 && j<row.length ? (row[j]||'').trim() : '');
-    const w=get(idx.w); if(!w) continue;
-    const th=get(idx.th);
-    const sRaw=get(idx.s);
-    const cat=get(idx.cat);
-    const sArr = sRaw ? sRaw.split('|').map(x=>x.trim()).filter(Boolean) : [];
-    out.push({ id:startId+i, w, th, s: sArr.length? sArr : (sRaw? [sRaw] : []), cat });
-  }
-  return out;
-}
+voiceSelect.addEventListener('change', ()=>{ selectedVoiceURI = voiceSelect.value || ''; localStorage.setItem('voiceURI', selectedVoiceURI); });
 
-/* ===== Voice ===== */
-function getVoice(){
-  const voices=speechSynthesis.getVoices();
-  return state.voice ? voices.find(v=>v.name===state.voice) : voices.find(v=> v.lang?.toLowerCase().startsWith('en'));
-}
-function speak(text){
-  if(!('speechSynthesis' in window)) return;
-  const u=new SpeechSynthesisUtterance(text); const v=getVoice();
-  if(v) u.voice=v; u.rate=state.rate; u.lang='en-US'; speechSynthesis.cancel(); speechSynthesis.speak(u);
-}
+rate.addEventListener('input',()=>{ rateLbl.textContent=Number(rate.value).toFixed(2)+'x'; localStorage.setItem('rate', rate.value); });
+// restore rate if saved
+const savedRate = localStorage.getItem('rate'); if(savedRate){ rate.value = savedRate; rateLbl.textContent = Number(savedRate).toFixed(2)+'x'; }
 
-function speakWord(c){
-  speak(c.w || '');
-}
-function speakExamples(c){
-  const sents = Array.isArray(c.s) ? c.s : (c.s ? [c.s] : []);
-  if(sents.length){ speak(sents.join(' ')); }
-}
-function speakCard(c){
-  const parts=[c.w]; // อ่านคำศัพท์ก่อน
-  const sents = Array.isArray(c.s)? c.s : (c.s? [c.s] : []);
-  if(sents.length){ parts.push(sents.join(' ')); } // ตามด้วยประโยคตัวอย่างทั้งหมด
-  speak(parts.join('. '));
-}
+btnSpeak.addEventListener('click',()=>{
+  if(!('speechSynthesis' in window)) return alert('เบราว์เซอร์นี้ไม่รองรับการอ่านออกเสียง');
+  speechSynthesis.cancel();
+  const item=CARDS[order[idx]];
+  const ut=new SpeechSynthesisUtterance(flipped?item.s:item.w);
+  const chosen = getSelectedVoice();
+  if(chosen) ut.voice = chosen; else if(defaultVoice) ut.voice = defaultVoice;
+  ut.rate = parseFloat(localStorage.getItem('rate') || rate.value || '0.9');
+  ut.lang = (ut.voice && ut.voice.lang) || (defaultVoice && defaultVoice.lang) || 'en-US';
+  speechSynthesis.speak(ut);
+});
 
-/* ===== UI: datasets ===== */
-function renderDatasets(){
-  const wrap = qs('#datasets'); if(!wrap) return; wrap.innerHTML='';
-  datasets.forEach(ds=>{
-    const b=document.createElement('button'); b.className='ds'+(ds.id===state.active?' on':''); b.textContent=ds.name||'CSV';
-    b.onclick=()=>{ state.active=ds.id; store.active=ds.id; renderAll(true); };
-    wrap.appendChild(b);
+window.addEventListener('keydown',e=>{if(['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName))return;if(e.key===' '){e.preventDefault();btnSpeak.click()}});
+function openSets(){modal.classList.add('open');modal.setAttribute('aria-hidden','false');renderSetButtons()} function closeSets(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true')}
+btnSets.addEventListener('click',openSets); closeModal.addEventListener('click',closeSets);
+function renderSetButtons(){setRow.innerHTML='';Object.keys(SETS).sort((a,b)=>Number(a)-Number(b)).forEach(key=>{const b=document.createElement('button');b.className='pill';b.textContent='ชุด '+key;b.onclick=()=>{closeSets();startSet(Number(key))};setRow.appendChild(b)})}
+fileInput.addEventListener('change',async e=>{const file=e.target.files[0];if(!file)return;const text=await file.text();let arr=[];if(file.name.toLowerCase().endsWith('.json')){try{const data=JSON.parse(text);if(Array.isArray(data))arr=data}catch(err){alert('ไฟล์ JSON ไม่ถูกต้อง');return}}else{arr=text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean).map(line=>{const [w,th,s,cat]=line.split(',').map(x=>x?.trim()?.replace(/^"|"$/g,''));return {w,th,s,cat}}).filter(x=>x&&x.w)} if(!arr.length)return alert('ไม่พบข้อมูลคำศัพท์');const nextNum=Math.max(...Object.keys(SETS).map(n=>Number(n)))+1;SETS[nextNum]=arr;closeSets();startSet(nextNum)});
+startSet(1);
+
+// Register service worker
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('./service-worker.js');
   });
 }
-
-/* ===== Flashcards ===== */
-const PASTEL={ adjective:'var(--pastel-adj)',verb:'var(--pastel-verb)',thing:'var(--pastel-thing)',animal:'var(--pastel-animal)',time:'var(--pastel-time)',preposition:'var(--pastel-thing)' };
-const flashState = { order:[], idx:0, flipped:false };
-function Flashcards(fresh=true){
-  const items = currentWords(); if(!items.length) return document.createTextNode('ยังไม่มีคำในชุดนี้');
-  if(fresh || !flashState.order.length){ flashState.order=[...items]; flashState.idx=0; flashState.flipped=false; }
-  const wrap=document.createElement('div'); wrap.className='flash-wrap';
-  const card=document.createElement('div'); card.className='flash-card'; wrap.appendChild(card);
-  function draw(){
-    const c=flashState.order[flashState.idx%flashState.order.length]; const bg=PASTEL[c.cat]||'#FFF6BF'; card.style.background=bg;
-    card.innerHTML = !flashState.flipped
-      ? `<div class="flash-badge">${(c.cat||'word')}</div><div class="flash-count">${flashState.idx+1}/${flashState.order.length}</div>
-         <div><div class="flash-word">${c.w}</div><div class="flash-hint">แตะการ์ดเพื่อพลิก</div></div>`
-      : `<div class="flash-badge">${(c.cat||'word')}</div><div class="flash-count">${flashState.idx+1}/${flashState.order.length}</div>
-         <div>${c.th?`<div style="font-size:clamp(22px,3.5vw,34px);font-weight:800;margin-bottom:8px">${c.th}</div>`:''}
-         ${(Array.isArray(c.s)?c.s:[c.s]).filter(Boolean).map(s=>`<div style="font-size:clamp(18px,3vw,26px);line-height:1.6;margin-top:6px">${s}</div>`).join('')||'<div class="flash-hint">ไม่มีประโยคตัวอย่าง</div>'}</div>`;
-  }
-  card.onclick=()=>{ flashState.flipped=!flashState.flipped; draw(); };
-  draw();
-  const controls=document.createElement('div'); controls.className='flash-controls';
-  const again=document.createElement('button'); again.className='btn warn'; again.textContent='⟲ ยังจำไม่ได้';
-  const readB=document.createElement('button'); readB.className='btn primary'; readB.textContent='🔊 อ่าน';
-  const know=document.createElement('button'); know.className='btn ok'; know.textContent='✓ จำได้แล้ว';
-  readB.onclick=()=>{ const c=flashState.order[flashState.idx%flashState.order.length]; speakCard(c); };
-  know.onclick=()=>{ flashState.order.splice(flashState.idx,1); if(!flashState.order.length){ flashState.order=[...items]; flashState.idx=0; } flashState.flipped=false; draw(); };
-  again.onclick=()=>{ const cur=flashState.order[flashState.idx]; flashState.order.splice(flashState.idx,1); flashState.order.splice(Math.min(flashState.order.length,3),0,cur); flashState.flipped=false; draw(); };
-  controls.append(again,readB,know); wrap.appendChild(controls); return wrap;
-}
-
-/* ===== Match Game ===== */
-const matchState = { left:[], right:[], sel:null, solved:new Set(), mounted:false };
-function sample(arr,n){ const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=(Math.random()*(i+1))|0; [a[i],a[j]]=[a[j],a[i]];} return a.slice(0,n); }
-function MatchGame(fresh=true){
-  const words = currentWords(); if(words.length<6) return document.createTextNode('ต้องมีคำอย่างน้อย 6 คำ');
-  if(fresh || !matchState.mounted){
-    const subset = sample(words, Math.min(8, words.length));
-    matchState.left = subset.map(x=>({id:x.id, w:x.w}));
-    matchState.right= sample(subset, subset.length).map(x=>({id:x.id, th: words.find(w=>w.id===x.id)?.th || '' }));
-    matchState.sel=null; matchState.solved=new Set(); matchState.mounted=true;
-  }
-  const wrap=document.createElement('div');
-  const title=document.createElement('div'); title.className='muted'; title.textContent='แตะจับคู่คำอังกฤษให้ตรงกับคำไทย';
-  wrap.appendChild(title);
-  const grid=document.createElement('div'); grid.className='match-grid'; wrap.appendChild(grid);
-  const colL=document.createElement('div'); colL.className='match-col'; grid.appendChild(colL);
-  const colR=document.createElement('div'); colR.className='match-col'; grid.appendChild(colR);
-  function drawCol(){
-    colL.innerHTML=''; colR.innerHTML='';
-    matchState.left.forEach(it=>{
-      const b=document.createElement('div'); b.className='match-item'; if(matchState.solved.has(it.id)) b.classList.add('done');
-      if(matchState.sel && matchState.sel.side==='L' && matchState.sel.id===it.id) b.classList.add('sel');
-      b.textContent=it.w; b.onclick=()=>select('L',it.id); colL.appendChild(b);
-    });
-    matchState.right.forEach(it=>{
-      const b=document.createElement('div'); b.className='match-item'; if(matchState.solved.has(it.id)) b.classList.add('done');
-      if(matchState.sel && matchState.sel.side==='R' && matchState.sel.id===it.id) b.classList.add('sel');
-      b.textContent=it.th||'-'; b.onclick=()=>select('R',it.id); colR.appendChild(b);
-    });
-  }
-  function select(side,id){
-    if(matchState.solved.has(id)) return;
-    if(!matchState.sel){ matchState.sel={side,id}; drawCol(); return; }
-    if(matchState.sel.side!==side){
-      if(matchState.sel.id===id){ matchState.solved.add(id); matchState.sel=null; drawCol(); checkDone(); }
-      else{ matchState.sel={side,id}; drawCol(); }
-    }else{ matchState.sel={side,id}; drawCol(); }
-  }
-  function checkDone(){
-    if(matchState.solved.size===matchState.left.length){
-      const done=document.createElement('div'); done.style.textAlign='center'; done.style.marginTop='10px'; done.innerHTML='<div class="btn ok">เสร็จแล้ว! 🎉</div>';
-      wrap.appendChild(done);
-    }
-  }
-  drawCol(); checkDone(); return wrap;
-}
-
-/* ===== Listen Game (multiple-choice) ===== */
-const listenState={q:null, mounted:false, round:0};
-function ListenGame(fresh=true){
-  const words=currentWords(); if(words.length<4) return document.createTextNode('ต้องมีคำอย่างน้อย 4 คำ');
-  const wrap=document.createElement('div');
-  function next(){
-    const opts = sample(words,4);
-    const answer = opts[(Math.random()*4)|0];
-    listenState.q={opts,answer}; listenState.round++; draw();
-    setTimeout(()=> speakCard(answer), 200);
-  }
-  function draw(){
-    wrap.innerHTML='';
-    const head=document.createElement('div'); head.className='row'; head.style.justifyContent='space-between';
-    head.innerHTML=`<div class="muted">รอบ: ${listenState.round||1}</div>
-      <div class="row"><button class="btn" id="play">เล่นเสียง</button><button class="btn" id="shuffle">เปลี่ยนคำถาม</button></div>`;
-    wrap.appendChild(head);
-    const note=document.createElement('div'); note.className='muted'; note.textContent='ฟังเสียงแล้วเลือกคำที่ได้ยิน';
-    wrap.appendChild(note);
-    const opts=document.createElement('div'); opts.className='listen-opts'; wrap.appendChild(opts);
-    listenState.q.opts.forEach(o=>{
-      const b=document.createElement('button'); b.className='listen-btn'; b.textContent=o.w;
-      b.onclick=()=>{ if(b.dataset.answered) return; b.dataset.answered='1';
-        if(o.id===listenState.q.answer.id){ b.style.background='#dcfce7'; b.style.borderColor='#16a34a'; }
-        else{ b.style.background='#fee2e2'; b.style.borderColor='#ef4444'; }
-      };
-      opts.appendChild(b);
-    });
-    wrap.querySelector('#play').onclick=()=> speakWord(listenState.q.answer);
-    wrap.querySelector('#shuffle').onclick=()=> next();
-  }
-  if(fresh || !listenState.mounted){ listenState.mounted=true; next(); } else { draw(); }
-  return wrap;
-}
-
-/* ===== Root render ===== */
-function renderAll(fresh){
-  view.innerHTML='';
-  if(state.tab==='flash')  view.appendChild(Flashcards(fresh));
-  if(state.tab==='listen') view.appendChild(ListenGame(fresh));
-  if(state.tab==='match')  view.appendChild(MatchGame(fresh));
-}
-document.addEventListener('DOMContentLoaded', ()=>{
-  renderAll(true);
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=11').catch(()=>{}); }
-});
-document.querySelectorAll('.tabs .btn').forEach(b=> b.onclick=()=>{ state.tab=b.dataset.tab; document.querySelectorAll('.tabs .btn').forEach(x=>x.classList.toggle('primary', x===b)); renderAll(true); });
-qs('#openModal').onclick=()=>{ document.getElementById('modal').style.display='flex'; renderDatasets(); };
-qs('#closeModal').onclick=()=>{ document.getElementById('modal').style.display='none'; };
-qs('#voiceSelect').onchange=(e)=>{ state.voice = e.target.value==='__auto__' ? '' : e.target.value; store.voice=state.voice; };
-qs('#rate').oninput=(e)=>{ state.rate = Number(e.target.value)/100; };
-
-// Modal actions
-qs('#fileInput').addEventListener('change', async (e)=>{
-  const file=e.target.files?.[0]; if(!file) return;
-  const text=await file.text(); console.log('[Local first line]', (text.split(/\\r?\\n/)[0]||'').slice(0,200));
-  let words=[];
-  if(file.name.toLowerCase().endsWith('.json')){
-    const data = JSON.parse(text);
-    words=(Array.isArray(data)?data:[]).map((x,i)=>({id:Date.now()+i,w:x.w,th:x.th||'',s:Array.isArray(x.s)?x.s:(x.s?[x.s]:[]),cat:x.cat||''})).filter(x=>x.w);
-  }else{
-    words=parseCSV(text);
-  }
-  if(!words.length) return alert('ไฟล์ว่างหรือหัวคอลัมน์ไม่ถูกต้อง');
-  const dsId="csv_"+Date.now(); const name=file.name.replace(/\\.(csv|txt|json)$/i,'');
-  datasets=store.datasets; datasets.push({id:dsId,name,words}); store.datasets=datasets; store.active=dsId; state.active=dsId;
-  renderDatasets(); renderAll(true); alert('นำเข้าจากไฟล์สำเร็จ');
-});
-qs('#importURL').onclick=async ()=>{
-  const url = qs('#urlInput').value.trim(); if(!url) return alert('กรอก URL ก่อน');
-  try{
-    const res = await fetch(url, {cache:'no-store'}); if(!res.ok) throw new Error('http_'+res.status);
-    const text = await res.text(); console.log('[CSV first line]', (text.split(/\\r?\\n/)[0]||'').slice(0,200));
-    const words = parseCSV(text);
-    if(!words.length) throw new Error('empty');
-    const dsId="csv_"+Date.now(); const name=url.split('/').pop().split('?')[0];
-    datasets = store.datasets; datasets.push({id:dsId, name, words}); store.datasets=datasets; store.active=dsId; state.active=dsId;
-    renderDatasets(); renderAll(true); alert('นำเข้าจาก URL สำเร็จ');
-  }catch(err){
-    console.error('Import URL failed:', err);
-    let msg='ไฟล์หรือหัวคอลัมน์ไม่ถูกต้อง';
-    if(String(err).includes('bad_header')) msg='หัวคอลัมน์ควรมีอย่างน้อย w และ th (รองรับ word/thai/sentences/category ด้วย)';
-    if(String(err).includes('http_')) msg='โหลดไฟล์ไม่สำเร็จ (เช็กพาธ/สิทธิ์ไฟล์บน GitHub หรือสะกดชื่อไฟล์)';
-    alert(msg);
-  }
-};
 </script>
 </body>
 </html>
