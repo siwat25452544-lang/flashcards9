@@ -195,6 +195,14 @@ function speak(text){
   const u=new SpeechSynthesisUtterance(text); const v=getVoice();
   if(v) u.voice=v; u.rate=state.rate; u.lang='en-US'; speechSynthesis.cancel(); speechSynthesis.speak(u);
 }
+
+function speakWord(c){
+  speak(c.w || '');
+}
+function speakExamples(c){
+  const sents = Array.isArray(c.s) ? c.s : (c.s ? [c.s] : []);
+  if(sents.length){ speak(sents.join(' ')); }
+}
 function speakCard(c){
   const parts=[c.w]; // อ่านคำศัพท์ก่อน
   const sents = Array.isArray(c.s)? c.s : (c.s? [c.s] : []);
@@ -316,7 +324,7 @@ function ListenGame(fresh=true){
       };
       opts.appendChild(b);
     });
-    wrap.querySelector('#play').onclick=()=> speakCard(listenState.q.answer);
+    wrap.querySelector('#play').onclick=()=> speakWord(listenState.q.answer);
     wrap.querySelector('#shuffle').onclick=()=> next();
   }
   if(fresh || !listenState.mounted){ listenState.mounted=true; next(); } else { draw(); }
